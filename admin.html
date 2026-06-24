@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin · Blog Engage</title>
+<meta name="description" content="Área administrativa do blog da Engage." />
+
+<meta name="robots" content="noindex, follow" />
+<link rel="canonical" href="https://www.useengage.com.br/admin" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Engage" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:title" content="Admin · Blog Engage" />
+<meta property="og:description" content="Área administrativa do blog da Engage." />
+<meta property="og:url" content="https://www.useengage.com.br/admin" />
+<meta property="og:image" content="https://www.useengage.com.br/assets/og-default.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Admin · Blog Engage" />
+<meta name="twitter:description" content="Área administrativa do blog da Engage." />
+<meta name="twitter:image" content="https://www.useengage.com.br/assets/og-default.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.useengage.com.br/#organization",
+  "name": "Engage",
+  "url": "https://www.useengage.com.br/",
+  "logo": "https://www.useengage.com.br/assets/og-default.png",
+  "description": "A Engage transforma a base de clientes na principal fonte de receita previsível, operando retenção, recompra, expansão e indicação — a parte 2 do funil — com a Engage LTV Platform (IA agêntica) e assessoria hands-on.",
+  "founder": {
+    "@type": "Person",
+    "name": "Deivison Vieira"
+  },
+  "areaServed": "BR",
+  "sameAs": [
+    "https://www.linkedin.com/company/useengage"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.useengage.com.br/#website",
+  "url": "https://www.useengage.com.br/",
+  "name": "Engage",
+  "inLanguage": "pt-BR",
+  "publisher": {
+    "@id": "https://www.useengage.com.br/#organization"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/engage.css" />
+<link rel="stylesheet" href="assets/blog.css" />
+<style>
+/* trava de acesso: esconde todo o admin até autenticar */
+html.admin-locked body > *:not(#adminGate) { display: none !important; }
+html.admin-locked, html.admin-locked body { background: var(--deep); }
+#adminGate { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 24px;
+  background: radial-gradient(120% 120% at 50% 0%, #2a1659 0%, var(--deep) 60%); }
+#adminGate.ag-out { opacity: 0; transition: opacity .28s ease; }
+.ag-card { width: 100%; max-width: 380px; background: rgba(255,255,255,0.04); border: 1px solid var(--line-dk);
+  border-radius: 18px; padding: 40px 34px; text-align: center; box-shadow: 0 50px 100px -44px rgba(0,0,0,0.7); }
+.ag-brand { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: var(--cream); margin-bottom: 26px; }
+.ag-brand span { color: var(--lilac); }
+.ag-card h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--cream); margin: 0 0 8px; }
+.ag-card p { font-size: 14px; color: var(--cream-soft); margin: 0 0 24px; line-height: 1.5; }
+.ag-field { position: relative; margin-bottom: 6px; }
+.ag-field input { width: 100%; font-family: var(--sans); font-size: 16px; color: var(--cream); background: rgba(0,0,0,0.25);
+  border: 1.5px solid var(--line-dk); border-radius: 11px; padding: 14px 46px 14px 16px; }
+.ag-field input:focus { outline: none; border-color: var(--lilac); box-shadow: 0 0 0 3px rgba(192,160,255,0.2); }
+.ag-field button { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none;
+  font-size: 16px; cursor: pointer; opacity: 0.6; padding: 6px; }
+.ag-err { font-size: 13px; color: #ff9b9b; text-align: left; min-height: 18px; margin: 4px 2px 12px; opacity: 0; transition: opacity .15s; }
+.ag-err.show { opacity: 1; }
+.ag-btn { width: 100%; font-family: var(--sans); font-size: 15px; font-weight: 700; color: #fff; background: var(--grad-num);
+  border: none; border-radius: 11px; padding: 15px; cursor: pointer; transition: transform .15s, box-shadow .25s; }
+.ag-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -16px rgba(155,77,224,0.7); }
+.ag-back { display: inline-block; margin-top: 22px; font-size: 13px; color: var(--cream-mute); }
+.ag-back:hover { color: var(--cream); }
+/* barra de sessão no topo do admin */
+.admin-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; background: var(--paper-2);
+  border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin-bottom: 22px; font-size: 13.5px; }
+.admin-bar .who { font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.admin-bar .who::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #1F8A5B; }
+.admin-bar .spacer { flex: 1; }
+.admin-bar button { font-size: 13px; font-weight: 600; padding: 7px 13px; border-radius: 8px; border: 1px solid var(--line);
+  background: var(--paper); color: var(--ink-soft); cursor: pointer; transition: all .15s; }
+.admin-bar button:hover { border-color: var(--purple); color: var(--purple); }
+.admin-bar .warn { color: #c0392b; font-weight: 600; }
+</style>
+<script src="assets/admin-auth.js"></script>
+</head>
+<body>
+
+<div class="top">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index" class="brand">Engage<span class="dot">.</span></a>
+      <div class="nav-links">
+        <a href="index">Início</a>
+        <a href="blog">Blog</a>
+        <a href="admin" class="active">Admin</a>
+      </div>
+      <div class="nav-right">
+        <a href="blog" class="nav-cta">Ver blog</a>
+        <button class="burger" data-menu-open aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero" style="padding-bottom:clamp(30px,3.5vw,44px)">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="blog">Blog</a><span class="sep">/</span><span>Administração</span></div>
+      <div class="kicker on-dark">Área administrativa</div>
+      <h1 style="margin-top:20px;font-size:clamp(30px,4vw,52px)">Escreva e <em class="clip">publique.</em></h1>
+      <p class="lead">Crie artigos, salve como rascunho e publique quando quiser. Tudo aparece no blog em tempo real.</p>
+    </div>
+  </header>
+</div>
+
+<!-- ════════ ADMIN (light) ════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="admin-bar">
+      <span class="who">Sessão ativa</span>
+      <span id="pwWarn" class="warn"></span>
+      <span class="spacer"></span>
+      <button type="button" id="btnChangePw">Trocar senha</button>
+      <button type="button" id="btnLogout">Sair</button>
+    </div>
+    <div class="admin-shell">
+      <!-- editor -->
+      <div class="admin-card">
+        <h3 id="editorTitle">Novo artigo</h3>
+        <p class="sub">Os campos com conteúdo aparecem no card e no topo do artigo.</p>
+        <form id="postForm">
+          <input type="hidden" id="postId" />
+          <div class="afield">
+            <label for="title">Título *</label>
+            <input type="text" id="title" placeholder="Ex.: Como reduzir churn com health score" required />
+          </div>
+          <div class="afield-row">
+            <div class="afield">
+              <label for="category">Categoria</label>
+              <input type="text" id="category" placeholder="Ex.: Estratégia, Métricas, CX" list="catList" />
+              <datalist id="catList"><option>Estratégia</option><option>Métricas</option><option>Customer Success</option><option>CX</option><option>Comunidade</option><option>Indicação</option></datalist>
+            </div>
+            <div class="afield">
+              <label for="minutes">Tempo de leitura (min)</label>
+              <input type="number" id="minutes" min="1" max="60" placeholder="5" />
+            </div>
+          </div>
+          <div class="afield">
+            <label for="author">Autor</label>
+            <input type="text" id="author" placeholder="Deivison Vieira" />
+          </div>
+          <div class="afield">
+            <label for="excerpt">Resumo (aparece nos cards)</label>
+            <textarea id="excerpt" style="min-height:70px" placeholder="Uma ou duas frases que resumem o artigo."></textarea>
+          </div>
+          <div class="afield">
+            <label>Capa</label>
+            <div class="cover-picker" id="coverPicker">
+              <div class="cp cover-gradient-1 sel" data-cover="gradient-1"></div>
+              <div class="cp cover-gradient-2" data-cover="gradient-2"></div>
+              <div class="cp cover-gradient-3" data-cover="gradient-3"></div>
+              <div class="cp cover-gradient-4" data-cover="gradient-4"></div>
+            </div>
+            <input type="text" id="coverUrl" style="margin-top:10px" placeholder="Ou cole a URL de uma imagem (opcional)" />
+            <div class="hint">Sem imagem, usamos um dos gradientes da marca.</div>
+          </div>
+          <div class="afield">
+            <label for="body">Conteúdo *</label>
+            <textarea id="body" class="mono" placeholder="Escreva em markdown simples:&#10;&#10;## Subtítulo&#10;&#10;Parágrafo normal com **negrito**.&#10;&#10;> Uma citação de destaque.&#10;&#10;- item de lista&#10;- outro item" required></textarea>
+            <div class="hint">Suporta: ## e ### (títulos), **negrito**, *itálico*, &gt; citação, listas com - ou 1.</div>
+          </div>
+          <div class="admin-actions">
+            <button type="button" class="btn btn-purple" id="btnPublish">Publicar <span class="arr">→</span></button>
+            <button type="button" class="btn btn-outline" id="btnDraft">Salvar rascunho</button>
+            <button type="button" class="btn-text" id="btnClear" style="margin-left:auto">Limpar</button>
+          </div>
+          <div class="admin-msg" id="adminMsg"></div>
+        </form>
+      </div>
+
+      <!-- lista -->
+      <div>
+        <div class="admin-card" style="margin-bottom:18px">
+          <h3 style="margin-bottom:14px">Artigos <span id="postCount" style="color:var(--ink-mute);font-weight:600"></span></h3>
+          <div class="post-list" id="postList"></div>
+        </div>
+        <div class="admin-note">
+          <strong>Onde os artigos ficam salvos:</strong> neste protótipo, os artigos são guardados no navegador deste dispositivo (localStorage). São perfeitos para escrever, revisar e demonstrar. Para publicar de forma definitiva na web, com acesso de qualquer lugar, é necessário conectar um servidor/banco de dados — um próximo passo de engenharia.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="mobile-menu">
+  <div class="mm-head">
+    <span class="brand">Engage<span class="dot">.</span></span>
+    <button class="burger" data-menu-close aria-label="Fechar" style="display:block"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <a class="mm-link" href="index">Início</a>
+  <a class="mm-link" href="blog">Blog</a>
+  <a class="mm-link" href="admin">Admin</a>
+  <a class="btn btn-cream" href="blog">Ver blog</a>
+</div>
+
+<script src="assets/engage.js"></script>
+<script src="assets/blog.js"></script>
+<script>
+(function () {
+  var form = document.getElementById('postForm');
+  var msg = document.getElementById('adminMsg');
+  var selectedCover = 'gradient-1';
+
+  // cover picker
+  document.getElementById('coverPicker').addEventListener('click', function (e) {
+    var cp = e.target.closest('.cp'); if (!cp) return;
+    document.querySelectorAll('.cp').forEach(function (c){ c.classList.remove('sel'); });
+    cp.classList.add('sel'); selectedCover = cp.dataset.cover;
+    document.getElementById('coverUrl').value = '';
+  });
+
+  function showMsg(text, type) {
+    msg.textContent = text; msg.className = 'admin-msg show ' + type;
+    setTimeout(function () { msg.classList.remove('show'); }, 4000);
+  }
+  function val(id) { return document.getElementById(id).value.trim(); }
+
+  function gather(status) {
+    var coverUrl = val('coverUrl');
+    return {
+      id: val('postId') || null,
+      title: val('title'),
+      category: val('category') || 'Artigo',
+      minutes: parseInt(val('minutes'), 10) || 5,
+      author: val('author') || 'Deivison Vieira',
+      excerpt: val('excerpt'),
+      cover: coverUrl || selectedCover,
+      body: val('body'),
+      status: status
+    };
+  }
+
+  function save(status) {
+    var p = gather(status);
+    if (!p.title) { showMsg('Dê um título ao artigo.', 'warn'); document.getElementById('title').focus(); return; }
+    if (!p.body) { showMsg('Escreva o conteúdo do artigo.', 'warn'); document.getElementById('body').focus(); return; }
+    var saved = BlogStore.save(p);
+    document.getElementById('postId').value = saved.id;
+    showMsg(status === 'published' ? 'Publicado! Já está no ar no blog.' : 'Rascunho salvo.', 'ok');
+    renderList();
+  }
+
+  document.getElementById('btnPublish').addEventListener('click', function () { save('published'); });
+  document.getElementById('btnDraft').addEventListener('click', function () { save('draft'); });
+  document.getElementById('btnClear').addEventListener('click', function () { clearForm(); });
+
+  function clearForm() {
+    form.reset();
+    document.getElementById('postId').value = '';
+    document.getElementById('editorTitle').textContent = 'Novo artigo';
+    selectedCover = 'gradient-1';
+    document.querySelectorAll('.cp').forEach(function (c,i){ c.classList.toggle('sel', i===0); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function edit(id) {
+    var p = BlogStore.getById(id); if (!p) return;
+    document.getElementById('postId').value = p.id;
+    document.getElementById('title').value = p.title || '';
+    document.getElementById('category').value = p.category || '';
+    document.getElementById('minutes').value = p.minutes || '';
+    document.getElementById('author').value = p.author || '';
+    document.getElementById('excerpt').value = p.excerpt || '';
+    document.getElementById('body').value = p.body || '';
+    var isUrl = p.cover && /^https?:|^data:/.test(p.cover);
+    document.getElementById('coverUrl').value = isUrl ? p.cover : '';
+    selectedCover = isUrl ? 'gradient-1' : (p.cover || 'gradient-1');
+    document.querySelectorAll('.cp').forEach(function (c){ c.classList.toggle('sel', c.dataset.cover === selectedCover); });
+    document.getElementById('editorTitle').textContent = 'Editando artigo';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderList() {
+    var posts = BlogStore.all();
+    document.getElementById('postCount').textContent = '(' + posts.length + ')';
+    var list = document.getElementById('postList');
+    if (!posts.length) { list.innerHTML = '<p style="color:var(--ink-soft);font-size:14px">Nenhum artigo ainda. Crie o primeiro ao lado.</p>'; return; }
+    list.innerHTML = posts.map(function (p) {
+      return '<div class="pl-item"><div class="pl-top"><div><h4>' + p.title + '</h4>' +
+        '<div class="pl-meta">' + (p.category || 'Artigo') + ' · ' + BlogStore.fmtDate(p.date) + '</div></div>' +
+        '<span class="pl-badge ' + (p.status === 'published' ? 'published' : 'draft') + '">' + (p.status === 'published' ? 'Publicado' : 'Rascunho') + '</span></div>' +
+        '<div class="pl-acts"><button data-act="edit" data-id="' + p.id + '">Editar</button>' +
+        (p.status === 'published' ? '<button data-act="view" data-id="' + p.id + '">Ver</button>' : '<button data-act="pub" data-id="' + p.id + '">Publicar</button>') +
+        '<button class="del" data-act="del" data-id="' + p.id + '">Excluir</button></div></div>';
+    }).join('');
+  }
+
+  document.getElementById('postList').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var id = b.dataset.id, act = b.dataset.act;
+    if (act === 'edit') edit(id);
+    else if (act === 'view') { var p = BlogStore.getById(id); location.href = 'artigo.html?slug=' + encodeURIComponent(p.slug); }
+    else if (act === 'pub') { var p2 = BlogStore.getById(id); p2.status = 'published'; BlogStore.save(p2); showMsg('Publicado!', 'ok'); renderList(); }
+    else if (act === 'del') { if (confirm('Excluir este artigo? Esta ação não pode ser desfeita.')) { BlogStore.remove(id); renderList(); showMsg('Artigo excluído.', 'ok'); } }
+  });
+
+  renderList();
+
+  // ── controles de sessão ──
+  document.getElementById('btnLogout').addEventListener('click', function () {
+    if (window.AdminAuth) window.AdminAuth.logout();
+  });
+  // aviso se ainda usa a senha padrão
+  if (window.AdminAuth && window.AdminAuth.isDefaultPassword()) {
+    document.getElementById('pwWarn').textContent = '⚠ Você ainda usa a senha padrão — troque-a.';
+  }
+  document.getElementById('btnChangePw').addEventListener('click', async function () {
+    var atual = prompt('Senha atual:');
+    if (atual === null) return;
+    var nova = prompt('Nova senha (mínimo 6 caracteres):');
+    if (nova === null) return;
+    var conf = prompt('Confirme a nova senha:');
+    if (conf === null) return;
+    if (nova !== conf) { showMsg('As senhas não coincidem.', 'warn'); return; }
+    var r = await window.AdminAuth.changePassword(atual, nova);
+    showMsg(r.msg, r.ok ? 'ok' : 'warn');
+    if (r.ok) document.getElementById('pwWarn').textContent = '';
+  });
+})();
+</script>
+</body>
+</html>

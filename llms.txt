@@ -1,0 +1,50 @@
+# Engage
+
+> Plataforma de IA agêntica de pós-venda + assessoria hands-on que transforma a base de clientes na principal fonte de receita previsível: retenção, recompra, expansão, indicação e LTV — a parte 2 do funil. Atende empresas de médio porte com base ativa, B2B ou B2C consultivo.
+
+Versão expandida: https://www.useengage.com.br/llms-full.txt
+
+## Conceitos-chave
+- LTV: quanto cada cliente vale durante todo o tempo em que permanece cliente.
+- NRR: mede se a receita da base atual cresce sem contar cliente novo. Acima de 100%, a base cresce sozinha.
+- Customer Score: índice proprietário da Engage que cruza 8 dimensões de comportamento, transação e relacionamento. RFV e health score são componentes dele.
+- Mathias: o autopilot da Engage LTV Platform — identifica oportunidade na base, decide a prioridade e executa, com o nível de autonomia definido pelo cliente.
+- Modelos de contratação: SaaS, Plataforma + Assessoria (co-execução) e Outsourcing (XaaS).
+
+## Páginas principais
+- [Plataforma](https://www.useengage.com.br/plataforma): Engage LTV Platform — IA agêntica, Mathias, Customer Score, comparação com CRM e automação.
+- [Serviços](https://www.useengage.com.br/servicos): os sete serviços do ecossistema e os três modelos de contratação.
+- [Como funciona](https://www.useengage.com.br/como-funciona): o processo, do diagnóstico gratuito à operação contínua.
+- [Resultados](https://www.useengage.com.br/resultados): cases reais (Umentor/You RH, Unimed VTPR e outros) e indicadores.
+- [Sobre](https://www.useengage.com.br/sobre): Deivison Vieira e a trajetória da Engage.
+- [Blog](https://www.useengage.com.br/blog): conteúdo sobre retenção, LTV e expansão de receita.
+- [Contato](https://www.useengage.com.br/contato): diagnóstico gratuito.
+
+## Páginas de FAQ (perguntas e respostas diretas)
+- [FAQ Home](https://www.useengage.com.br/#faq): o que é e por que importa — base vs. aquisição, o que é LTV, ferramenta vs. assessoria, por que CRM e e-mail não bastam, para quais negócios serve, por onde começar.
+- [FAQ Plataforma](https://www.useengage.com.br/plataforma#faq): como a IA opera — trocar CRM, tempo até resultado, B2C vs. B2B, necessidade de time de CS, autonomia da IA.
+- [FAQ Serviços](https://www.useengage.com.br/servicos#faq): quanto custa e como contratar — investimento, CS interno vs. assessoria, diagnóstico vs. execução, time de CS, prazo, segmentos.
+- [FAQ Como funciona](https://www.useengage.com.br/como-funciona#faq): como calcular e o que significa — cálculo de NRR, RFV, Customer Score vs. NPS, cálculo de churn, relação com o CRM existente.
+- [FAQ Resultados](https://www.useengage.com.br/resultados#faq): aplicabilidade e medição — ROI de retenção, replicabilidade dos cases, prazo de resultado, semelhança de cases, dependência de produto.
+
+## Blog — artigos (perguntas frequentes da internet, respostas diretas)
+- [O que é LTV](https://www.useengage.com.br/blog/o-que-e-ltv): receita total que um cliente gera; fórmula ticket × frequência × tempo de retenção.
+- [O que é CAC](https://www.useengage.com.br/blog/o-que-e-cac): custo médio para conquistar um cliente; (marketing + vendas) ÷ novos clientes.
+- [Relação LTV/CAC](https://www.useengage.com.br/blog/relacao-ltv-cac): compara valor e custo do cliente; proporção saudável de referência é 3:1.
+- [O que é churn](https://www.useengage.com.br/blog/o-que-e-churn): taxa de clientes ou receita perdida; tipos, causas e como reduzir.
+- [Como calcular churn](https://www.useengage.com.br/blog/como-calcular-churn): fórmula: clientes perdidos ÷ clientes iniciais × 100; churn de clientes vs. receita.
+- [O que é NRR](https://www.useengage.com.br/blog/o-que-e-nrr): retenção líquida de receita; acima de 100%, a base cresce sozinha.
+- [Como aumentar o LTV](https://www.useengage.com.br/blog/como-aumentar-ltv): 7 estratégias: retenção, frequência, expansão e indicação.
+- [Retenção de clientes](https://www.useengage.com.br/blog/retencao-de-clientes): reter custa 5 a 7× menos que adquirir; como construir a estratégia.
+- [O que é Customer Success](https://www.useengage.com.br/blog/o-que-e-customer-success): área proativa que garante resultado ao cliente; diferente do suporte.
+- [O que é análise RFV](https://www.useengage.com.br/blog/o-que-e-rfv): segmentação por Recência, Frequência e Valor; base do Customer Score.
+- [Upsell e cross-sell](https://www.useengage.com.br/blog/upsell-e-cross-sell): versão melhor vs. produto complementar; alavancas de expansão de receita.
+- [O que é health score](https://www.useengage.com.br/blog/o-que-e-health-score): índice que antecipa churn combinando uso, engajamento e suporte.
+- [Programa de indicação](https://www.useengage.com.br/blog/programa-de-indicacao): transforma clientes em canal de baixo CAC; mecânica, incentivo e rastreamento.
+- [O que é a parte 2 do funil](https://www.useengage.com.br/blog/parte-2-do-funil): o pós-venda (retenção, expansão, indicação) onde o LTV é construído.
+- [Como reduzir o CAC](https://www.useengage.com.br/blog/como-reduzir-cac): 6 formas: conversão, segmentação, indicação, conteúdo, LTV e retenção.
+- [CRM de relacionamento vs vendas](https://www.useengage.com.br/blog/crm-de-relacionamento): um fecha a venda, o outro opera a receita do pós-venda.
+- [Métricas de retenção](https://www.useengage.com.br/blog/metricas-de-retencao): churn, NRR, GRR, LTV, recompra e health score — como usá-las juntas.
+- [Churn preditivo](https://www.useengage.com.br/blog/churn-preditivo): prever cancelamentos antes que aconteçam com dados e IA.
+- [O que é receita recorrente](https://www.useengage.com.br/blog/receita-recorrente): receita previsível (MRR/ARR); só se sustenta com retenção.
+- [IA agêntica para CS](https://www.useengage.com.br/blog/ia-agentica-customer-success): IA que decide e age, não só analisa; identifica, decide, executa e aprende.

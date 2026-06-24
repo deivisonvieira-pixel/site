@@ -1,0 +1,94 @@
+# Engage — plataforma de IA agêntica + assessoria para a parte 2 do funil
+
+A Engage transforma a base de clientes na principal fonte de receita previsível de uma empresa. Atua na "parte 2 do funil" — o pós-venda: retenção, recompra, expansão e indicação — combinando a Engage LTV Platform (IA agêntica) com assessoria hands-on de Customer Success. Atende empresas de médio porte (mid-market) com base de clientes ativa, B2B ou B2C consultivo.
+
+## O problema que a Engage resolve
+
+A maior parte do orçamento das empresas vai para aquisição: mídia paga e prospecção. O CAC sobe a cada ano e cada anúncio rende menos, enquanto a receita mais previsível fica parada na base já conquistada. Clientes cancelam sem aviso, oportunidades de upsell passam batido e a indicação acontece sem processo. O resultado é crescimento dependente de gastar cada vez mais em aquisição.
+
+## A tese da Engage
+
+O crescimento mais eficiente não vem só de conquistar clientes novos, e sim de aumentar o valor gerado por quem já comprou e já confia na marca. Vender para a base tem muito mais chance de conversão do que prospecção fria e custa uma fração do CAC. Por isso a Engage opera a base como um sistema de receita.
+
+## Como a Engage funciona
+
+1. Diagnóstico gratuito: mede LTV, churn, recompra e NRR atuais e mostra, em reais, a receita parada na base.
+2. Estratégia: define a métrica-norte e prioriza quais serviços atacam o maior vazamento.
+3. Implantação (30 a 60 dias): integra a Engage LTV Platform às fontes de dados e ativa os primeiros playbooks.
+4. Operação: o squad da Engage opera retenção e expansão junto ao time do cliente, guiado por dados.
+5. Evolução: ativa comunidade, indicação e novas frentes para escalar o LTV.
+
+## A Engage LTV Platform
+
+Plataforma de IA agêntica para o pós-venda. Encontra o dinheiro parado na base, decide a ação e executa — com o nível de autonomia que o cliente configurar.
+
+- Mathias: o autopilot. Identifica oportunidade na base, prioriza pelo impacto em receita e executa a ação no canal certo.
+- Customer Score: índice proprietário que cruza 8 dimensões de comportamento, transação e relacionamento para medir a saúde real de cada cliente. RFV e health score são componentes dele.
+- Cliente Sintético: identifica o segmento certo, monta a campanha (mensagem, canal, cadência) e dispara.
+- Outros blocos: monitor de churn, esteiras de expansão (upsell e cross-sell), réguas multicanal (e-mail, WhatsApp, in-app) e painel de LTV e NRR.
+
+Diferença de categoria: CRM registra, automação dispara, mas nenhum dos dois decide o que fazer com a base nem age sozinho. A Engage decide, constrói a campanha e executa. Integra com o CRM, ERP e canais já existentes — não os substitui.
+
+## Os sete serviços do ecossistema
+
+1. Engage LTV Platform (produto proprietário, no centro).
+2. Customer Success e Expansão de Receita.
+3. CRM Marketing e Relacionamento.
+4. Experiência do Cliente (CX) — camada transversal a todos os serviços.
+5. Comunidade.
+6. Estratégia e Programa de Indicação.
+7. Tecnologia e IA para a parte 2 do funil.
+
+## Modelos de contratação
+
+- SaaS: a plataforma, com onboarding e suporte; o time do cliente opera.
+- Plataforma + Assessoria (co-execução): a Engage opera junto ao time do cliente. É o mais escolhido.
+- Outsourcing (XaaS): squad dedicado da Engage opera por completo.
+
+## Conceitos-chave
+
+- LTV (Lifetime Value): quanto cada cliente gera durante todo o relacionamento.
+- NRR (Net Revenue Retention): mede se a receita da base atual cresce sem contar cliente novo. Acima de 100%, a base cresce sozinha.
+- Churn: proporção de clientes perdidos no período; o que importa é a tendência caindo.
+- RFV: recência, frequência e valor — um dos componentes do Customer Score.
+- Customer Score: índice proprietário de saúde do cliente em 8 dimensões.
+
+## Resultados
+
+Mais de R$ 10 bilhões em receita gerenciada ao longo de 20 anos; mais de 15 mil profissionais formados. Cases: Umentor / You RH (Willian Barbosa — +136% em vendas, CSAT de 69 para 89), Unimed VTPR (Aline Gouvêa — CSAT de 52 para 87), entre outros em saúde, fitness, SaaS e benefícios.
+
+## Quem está por trás
+
+Deivison Vieira — fundador da Engage, reconhecido entre os Top 100 Customer Strategist do mundo.
+
+## Para quem é
+
+Empresas de médio porte com base de clientes ativa e recorrente, B2B ou B2C consultivo, cansadas de depender de tráfego pago e de ver o CAC subir.
+
+## Perguntas frequentes
+
+### O que é a Engage?
+Uma plataforma de IA agêntica de pós-venda, combinada com assessoria hands-on, que transforma a base de clientes na principal fonte de receita previsível, operando retenção, recompra, expansão e indicação.
+
+### A Engage é uma ferramenta ou uma assessoria?
+As duas. A Engage LTV Platform é o sistema; a assessoria entra quando o cliente precisa de estratégia e execução junto, não só tecnologia.
+
+### A Engage substitui meu CRM?
+Não. Ela integra com o CRM, ERP e canais que o cliente já usa, e usa esses dados para decidir e agir.
+
+### Em quanto tempo aparece resultado?
+A implantação típica leva de 30 a 60 dias; as primeiras melhorias de churn e upsell costumam aparecer nos primeiros meses de operação estruturada.
+
+### A IA age sozinha?
+O cliente decide o nível de autonomia: o Mathias pode agir direto ou aguardar aprovação de cada ação.
+
+## Páginas
+
+- Home: https://www.useengage.com.br/
+- Plataforma: https://www.useengage.com.br/plataforma
+- Serviços: https://www.useengage.com.br/servicos
+- Como funciona: https://www.useengage.com.br/como-funciona
+- Resultados: https://www.useengage.com.br/resultados
+- Sobre: https://www.useengage.com.br/sobre
+- Blog: https://www.useengage.com.br/blog
+- Contato (diagnóstico gratuito): https://www.useengage.com.br/contato
