@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Framework de Artigo · Engage Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #1a1028;
+    --purple: #6E2CB8;
+    --lilac: #B98CFF;
+    --cream: #FAF8F4;
+    --cream-2: #F2EEE6;
+    --border: #e2ddd6;
+    --code-bg: #1a1028;
+    --code-fg: #e0d5ff;
+    --green: #1f8a5b;
+    --orange: #c75a1a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Schibsted Grotesk', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; font-size: 16px; }
+
+  /* ── layout ── */
+  .page { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--ink); color: #c8bfdf; padding: 32px 24px; border-right: 1px solid #2e1e4a; }
+  .sidebar h1 { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lilac); margin-bottom: 6px; }
+  .sidebar .sub { font-size: 11px; color: #7a6a9a; margin-bottom: 28px; }
+  .sidebar nav a { display: block; font-size: 13px; color: #c8bfdf; text-decoration: none; padding: 5px 0; border-left: 2px solid transparent; padding-left: 10px; transition: all .15s; }
+  .sidebar nav a:hover, .sidebar nav a.active { color: #fff; border-left-color: var(--lilac); }
+  .sidebar .section-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #4a3a6a; margin: 20px 0 6px; }
+  .content { padding: 48px 56px 80px; max-width: 860px; }
+
+  /* ── type ── */
+  h2 { font-size: 22px; font-weight: 800; margin: 48px 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--border); color: var(--ink); }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 15px; font-weight: 700; margin: 28px 0 8px; color: var(--purple); text-transform: uppercase; letter-spacing: .06em; }
+  p { margin-bottom: 14px; color: #3a2e50; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; color: #3a2e50; }
+  strong { color: var(--ink); }
+  a { color: var(--purple); }
+
+  /* ── chips ── */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: #ede8f8; color: var(--purple); }
+  .chip.green { background: #e0f4ec; color: var(--green); }
+  .chip.orange { background: #fdeee4; color: var(--orange); }
+
+  /* ── code blocks ── */
+  pre { background: var(--code-bg); color: var(--code-fg); border-radius: 10px; padding: 20px 24px; overflow-x: auto; margin: 16px 0 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.65; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  pre .cm { color: #6a5a8a; font-style: italic; }
+  pre .tag { color: #80cfff; }
+  pre .attr { color: #b8e0ff; }
+  pre .val { color: #ffd580; }
+  pre .var { color: var(--lilac); }
+  pre .txt { color: #c8e6c9; }
+
+  /* ── info boxes ── */
+  .box { border-radius: 10px; padding: 16px 20px; margin: 16px 0; font-size: 14.5px; }
+  .box.tip { background: #ede8f8; border-left: 3px solid var(--purple); }
+  .box.warn { background: #fdeee4; border-left: 3px solid var(--orange); }
+  .box.ok { background: #e0f4ec; border-left: 3px solid var(--green); }
+
+  /* ── gradient swatches ── */
+  .swatches { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+  .swatch { width: 100px; height: 60px; border-radius: 8px; display: flex; align-items: flex-end; padding: 8px; }
+  .swatch span { font-size: 11px; font-weight: 700; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+  .g1 { background: linear-gradient(135deg, #2E1860, #6E2CB8 60%, #9B4DE0); }
+  .g2 { background: linear-gradient(135deg, #1B0E36, #4A1E8C 55%, #B98CFF); }
+  .g3 { background: linear-gradient(135deg, #3A1E6E, #8B3FE0 60%, #C0A0FF); }
+  .g4 { background: linear-gradient(135deg, #20114A, #6E2CB8); }
+
+  /* ── checklist ── */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14.5px; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: '☐'; font-size: 16px; color: var(--purple); flex-shrink: 0; margin-top: 1px; }
+
+  /* ── table ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: var(--ink); color: #e0d5ff; font-weight: 600; text-align: left; padding: 10px 14px; }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--cream-2); }
+  td code { background: #ede8f8; color: var(--purple); padding: 1px 5px; border-radius: 4px; }
+
+  /* ── top badge ── */
+  .badge { display: inline-block; background: var(--purple); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+
+  /* ── exemplos ── */
+  .ex-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 0; }
+  .ex-tab { padding: 8px 16px; border: 1.5px solid var(--border); border-radius: 20px; background: #fff; font-family: 'Schibsted Grotesk', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; color: #6a5a8a; transition: all .15s; }
+  .ex-tab.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+  .ex-body { display: none; border: 1.5px solid var(--border); border-radius: 12px; padding: 32px 36px; margin: 0 0 32px; background: #fff; }
+  .ex-body.active { display: block; }
+  .ex-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .ex-slug { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9a8ab0; background: #f4f0fa; padding: 2px 8px; border-radius: 4px; }
+  .ex-min { font-size: 12px; color: #9a8ab0; margin-left: auto; }
+  .ex-h1 { font-size: 22px; font-weight: 800; line-height: 1.25; color: var(--ink); margin-bottom: 20px; }
+  .ex-tldr { background: #ede8f8; border-left: 3px solid var(--purple); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 20px; font-size: 14.5px; }
+  .ex-tldr-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+  .ex-tldr p { margin: 0; color: #3a2e50; }
+  .ex-toc { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-size: 14px; }
+  .ex-toc-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9a8ab0; margin-bottom: 8px; }
+  .ex-toc ol { margin: 0; padding-left: 18px; }
+  .ex-toc li { color: var(--purple); margin-bottom: 4px; }
+  .ex-content h2 { font-size: 17px; font-weight: 800; margin: 28px 0 10px; padding-bottom: 0; border-bottom: none; color: var(--ink); }
+  .ex-content p { font-size: 14.5px; margin-bottom: 12px; color: #3a2e50; }
+  .ex-content ul, .ex-content ol { font-size: 14.5px; margin-bottom: 12px; padding-left: 20px; }
+  .ex-content li { margin-bottom: 5px; color: #3a2e50; }
+  .ex-content blockquote { border-left: 3px solid var(--lilac); padding: 10px 16px; margin: 16px 0; font-size: 15px; font-weight: 600; color: var(--ink); background: #f9f6ff; border-radius: 0 6px 6px 0; }
+  .ex-takeaways { background: var(--ink); color: #e0d5ff; border-radius: 8px; padding: 16px 20px; margin-top: 24px; }
+  .ex-tk-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lilac); margin-bottom: 10px; }
+  .ex-takeaways ul { margin: 0; padding-left: 18px; }
+  .ex-takeaways li { color: #c8bfdf; font-size: 14px; margin-bottom: 5px; }
+  .ex-faq { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 20px; }
+  .ex-faq-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9a8ab0; margin-bottom: 14px; }
+  .ex-faq-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .ex-faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .ex-faq-item strong { display: block; font-size: 14.5px; color: var(--ink); margin-bottom: 5px; }
+  .ex-faq-item p { margin: 0; font-size: 14px; color: #3a2e50; }
+
+  @media (max-width: 800px) {
+    .page { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; }
+    .content { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <h1>Engage Blog</h1>
+  <p class="sub">Framework de artigo · v1</p>
+  <nav>
+    <div class="section-label">Estrutura</div>
+    <a href="#visao-geral">Visão geral</a>
+    <a href="#nomenclatura">Nomenclatura do arquivo</a>
+    <a href="#head">HEAD — meta tags</a>
+    <a href="#hero">Hero do artigo</a>
+    <a href="#corpo">Corpo do artigo</a>
+    <a href="#faq">FAQ</a>
+    <a href="#cta">CTA</a>
+    <a href="#relacionados">Artigos relacionados</a>
+    <div class="section-label">Referência</div>
+    <a href="#gradientes">Gradientes de capa</a>
+    <a href="#categorias">Categorias</a>
+    <a href="#card-blog">Card no blog.html</a>
+    <a href="#checklist">Checklist de publicação</a>
+    <div class="section-label">Exemplos</div>
+    <a href="#exemplos">3 artigos de exemplo</a>
+    <div class="section-label">Template</div>
+    <a href="#template-completo">Template HTML completo</a>
+  </nav>
+</aside>
+
+<!-- ── CONTENT ── -->
+<main class="content">
+
+  <div class="badge">Referência interna</div>
+  <h2 id="visao-geral">Visão geral</h2>
+  <p>Cada artigo do blog é um <strong>arquivo HTML estático autossuficiente</strong> em <code>site/blog/</code>. Para publicar um artigo novo você precisa de exatamente <strong>2 arquivos</strong>:</p>
+  <ol>
+    <li><code>site/blog/meu-artigo.html</code> — o artigo em si</li>
+    <li><code>site/blog.html</code> — adicionar um card no grid de listagem</li>
+  </ol>
+  <div class="box tip">O tracking (GTM) já está em todos os templates. Não mexa nele — copie e cole sem alterar.</div>
+
+  <!-- ── NOMENCLATURA ── -->
+  <h2 id="nomenclatura">Nomenclatura do arquivo</h2>
+  <p>Use <strong>kebab-case em português</strong>, sem acentos, sempre descritivo. O nome do arquivo vira a URL canônica.</p>
+  <table>
+    <tr><th>✅ Correto</th><th>❌ Errado</th></tr>
+    <tr><td><code>o-que-e-ltv.html</code></td><td><code>artigo1.html</code>, <code>LTV.html</code></td></tr>
+    <tr><td><code>como-reduzir-churn.html</code></td><td><code>como_reduzir_churn.html</code></td></tr>
+    <tr><td><code>estrategia-de-retencao.html</code></td><td><code>estratégia-de-retenção.html</code></td></tr>
+  </table>
+
+  <!-- ── HEAD ── -->
+  <h2 id="head">HEAD — meta tags</h2>
+  <p>Copie o bloco abaixo e substitua os 8 campos marcados com <code>[[CAMPO]]</code>.</p>
+
+  <h3>Campos a substituir</h3>
+  <table>
+    <tr><th>Campo</th><th>O que colocar</th><th>Exemplo</th></tr>
+    <tr><td><code>[[SLUG]]</code></td><td>Nome do arquivo sem .html</td><td><code>o-que-e-ltv</code></td></tr>
+    <tr><td><code>[[TITLE_TAG]]</code></td><td>Título SEO (≤ 60 chars) + " | Engage"</td><td><code>O que é LTV e como calcular | Engage</code></td></tr>
+    <tr><td><code>[[DESCRIPTION]]</code></td><td>Meta description (≤ 155 chars)</td><td><code>LTV é a receita total que um cliente…</code></td></tr>
+    <tr><td><code>[[H1]]</code></td><td>Título longo completo (pode diferir do title tag)</td><td><code>O que é LTV (Lifetime Value) e como calcular…</code></td></tr>
+    <tr><td><code>[[CATEGORIA]]</code></td><td>Uma das categorias (ver lista abaixo)</td><td><code>Métricas</code></td></tr>
+    <tr><td><code>[[DATA_ISO]]</code></td><td>Data no formato YYYY-MM-DD</td><td><code>2026-07-10</code></td></tr>
+    <tr><td><code>[[DATA_BR]]</code></td><td>Data por extenso em pt-BR</td><td><code>10 de julho de 2026</code></td></tr>
+    <tr><td><code>[[MIN]]</code></td><td>Minutos de leitura (palavras ÷ 200)</td><td><code>6</code></td></tr>
+    <tr><td><code>[[KEYWORDS]]</code></td><td>5–8 termos separados por vírgula</td><td><code>LTV, lifetime value, calcular LTV…</code></td></tr>
+  </table>
+
+  <!-- ── HERO ── -->
+  <h2 id="hero">Hero do artigo</h2>
+  <p>O hero sempre tem: breadcrumb → kicker → H1 → autor + data + minutos.</p>
+<pre><span class="tag">&lt;header</span> <span class="attr">class</span>=<span class="val">"page-hero"</span> <span class="attr">style</span>=<span class="val">"padding-bottom:clamp(34px,4vw,52px)"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"wrap"</span> <span class="attr">style</span>=<span class="val">"max-width:820px"</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- breadcrumb --&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"breadcrumb"</span> <span class="attr">aria-label</span>=<span class="val">"Trilha"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"../index"</span><span class="tag">&gt;</span><span class="txt">Início</span><span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"sep"</span><span class="tag">&gt;</span><span class="txt">/</span><span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"../blog"</span><span class="tag">&gt;</span><span class="txt">Blog</span><span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"sep"</span><span class="tag">&gt;</span><span class="txt">/</span><span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;span&gt;</span><span class="var">[[CATEGORIA]]</span><span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+
+    <span class="cm">&lt;!-- kicker --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"kicker on-dark"</span> <span class="attr">style</span>=<span class="val">"margin-bottom:18px"</span><span class="tag">&gt;</span>
+      <span class="txt">Engage</span> <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"dot"</span><span class="tag">&gt;</span><span class="txt">·</span><span class="tag">&lt;/span&gt;</span> <span class="var">[[CATEGORIA]]</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="cm">&lt;!-- título --&gt;</span>
+    <span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="val">"margin:0;font-size:clamp(30px,4.2vw,56px)"</span><span class="tag">&gt;</span><span class="var">[[H1]]</span><span class="tag">&lt;/h1&gt;</span>
+
+    <span class="cm">&lt;!-- autor + data --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="val">"display:flex;align-items:center;gap:13px;margin-top:26px;color:var(--cream-soft);font-size:14px"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">style</span>=<span class="val">"display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--grad-num);color:#fff;font-size:13px;font-weight:700"</span><span class="tag">&gt;</span><span class="txt">DV</span><span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;span&gt;</span>
+        <span class="tag">&lt;strong</span> <span class="attr">style</span>=<span class="val">"color:var(--cream);display:block;font-size:14.5px"</span><span class="tag">&gt;</span><span class="txt">Deivison Vieira</span><span class="tag">&lt;/strong&gt;</span>
+        <span class="var">[[DATA_BR]]</span> <span class="txt">·</span> <span class="var">[[MIN]]</span> <span class="txt">min de leitura</span>
+      <span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/header&gt;</span></pre>
+
+  <!-- ── CORPO ── -->
+  <h2 id="corpo">Corpo do artigo</h2>
+  <p>O corpo vive dentro de <code>&lt;article class="section"&gt;&lt;div class="wrap"&gt;&lt;div class="article"&gt;</code> e tem 4 blocos fixos:</p>
+
+  <h3>1 · Resposta rápida (art-tldr)</h3>
+  <p>Resumo de 2–3 linhas respondendo à pergunta do título. Vai sempre <strong>antes</strong> do sumário.</p>
+<pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"art-tldr"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"h"</span><span class="tag">&gt;</span><span class="txt">Resposta rápida</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;p&gt;</span><span class="txt">Resposta direta com </span><span class="tag">&lt;strong&gt;</span><span class="txt">palavra-chave principal</span><span class="tag">&lt;/strong&gt;</span><span class="txt"> em negrito.</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+
+  <h3>2 · Sumário (art-toc)</h3>
+  <p>Lista numerada com âncoras <code>#id</code> correspondentes aos H2 do artigo.</p>
+<pre><span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"art-toc"</span> <span class="attr">aria-label</span>=<span class="val">"Neste artigo"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"h"</span><span class="tag">&gt;</span><span class="txt">Neste artigo</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"#secao-1"</span><span class="tag">&gt;</span><span class="txt">Título da seção 1</span><span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"#secao-2"</span><span class="tag">&gt;</span><span class="txt">Título da seção 2</span><span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="cm">&lt;!-- tipicamente 4–6 seções --&gt;</span>
+  <span class="tag">&lt;/ol&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></pre>
+
+  <h3>3 · Conteúdo (article-body)</h3>
+  <p>Use apenas estes elementos dentro de <code>&lt;div class="article-body"&gt;</code>:</p>
+  <table>
+    <tr><th>Elemento</th><th>Uso</th></tr>
+    <tr><td><code>&lt;h2 id="secao-1"&gt;</code></td><td>Título de seção principal (4–6 por artigo)</td></tr>
+    <tr><td><code>&lt;h3&gt;</code></td><td>Subtítulo dentro de uma seção</td></tr>
+    <tr><td><code>&lt;p&gt;</code></td><td>Parágrafo (1–3 por seção)</td></tr>
+    <tr><td><code>&lt;ul&gt; / &lt;ol&gt;</code></td><td>Lista de itens ou passos</td></tr>
+    <tr><td><code>&lt;blockquote&gt;</code></td><td>Fórmula destacada ou citação-chave</td></tr>
+    <tr><td><code>&lt;strong&gt;</code></td><td>Ênfase — use com parcimônia</td></tr>
+    <tr><td><code>&lt;a href="outro-slug"&gt;</code></td><td>Link interno (sem .html, relativo)</td></tr>
+  </table>
+  <div class="box tip">Termine sempre o article-body com o bloco <code>art-takeaways</code>:</div>
+<pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"art-takeaways"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"h"</span><span class="tag">&gt;</span><span class="txt">Pontos-chave</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="txt">Ponto 1 (frase curta, assertiva).</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="txt">Ponto 2.</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="txt">Ponto 3.</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="txt">Ponto 4.</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;/ul&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+
+  <!-- ── FAQ ── -->
+  <h2 id="faq">FAQ</h2>
+  <p>3–4 perguntas em accordion. Vai <strong>depois</strong> do article-body, antes do CTA. Cada pergunta deve espelhar uma dúvida real de busca.</p>
+<pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"art-faq"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="val">"faq"</span><span class="tag">&gt;</span><span class="txt">Perguntas frequentes</span><span class="tag">&lt;/h2&gt;</span>
+  <span class="tag">&lt;details&gt;</span>
+    <span class="tag">&lt;summary&gt;</span><span class="txt">Pergunta 1? </span><span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"pm"</span><span class="tag">&gt;&lt;/span&gt;&lt;/summary&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"ans"</span><span class="tag">&gt;</span><span class="txt">Resposta direta e completa.</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/details&gt;</span>
+  <span class="cm">&lt;!-- repita para cada pergunta --&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre>
+  <div class="box tip">As mesmas perguntas devem ser replicadas no JSON-LD <code>FAQPage</code> no HEAD.</div>
+
+  <!-- ── CTA ── -->
+  <h2 id="cta">CTA</h2>
+  <p>Sempre o último bloco dentro de <code>.article</code>, após o FAQ. Personalize o título e o subtítulo para o tema do artigo.</p>
+<pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"art-cta"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h3&gt;</span><span class="txt">Frase que conecta o artigo ao diagnóstico.</span><span class="tag">&lt;/h3&gt;</span>
+  <span class="tag">&lt;p&gt;</span><span class="txt">Uma linha de apoio sobre o que a Engage entrega.</span><span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"../contato"</span> <span class="attr">class</span>=<span class="val">"btn btn-cream"</span><span class="tag">&gt;</span>
+    <span class="txt">Agendar diagnóstico gratuito </span><span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"arr"</span><span class="tag">&gt;</span><span class="txt">→</span><span class="tag">&lt;/span&gt;&lt;/a&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+
+  <!-- ── RELACIONADOS ── -->
+  <h2 id="relacionados">Artigos relacionados</h2>
+  <p>Seção <strong>fora</strong> do <code>&lt;article&gt;</code>, antes do footer. Sempre 3 cards. Use slugs relativos (sem <code>../blog/</code>, só o slug).</p>
+<pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"section paper-2 tight"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"wrap"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"sec-head"</span> <span class="attr">style</span>=<span class="val">"margin-bottom:36px"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"left reveal"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"idx"</span><span class="tag">&gt;</span><span class="txt">Continue lendo</span><span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;h2&gt;</span><span class="txt">Mais sobre </span><span class="tag">&lt;em&gt;</span><span class="txt">receita de base.</span><span class="tag">&lt;/em&gt;&lt;/h2&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"post-grid"</span><span class="tag">&gt;</span>
+      <span class="cm">&lt;!-- card 1 --&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">class</span>=<span class="val">"post-card"</span> <span class="attr">href</span>=<span class="val">"slug-do-artigo"</span> <span class="attr">style</span>=<span class="val">"text-decoration:none;color:inherit"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"pc-cover"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="val">"position:absolute;inset:0"</span> <span class="attr">class</span>=<span class="val">"cover-gradient-1"</span><span class="tag">&gt;&lt;/div&gt;</span>
+          <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"pc-tag"</span><span class="tag">&gt;</span><span class="txt">Categoria</span><span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"pc-body"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"pc-meta"</span><span class="tag">&gt;</span><span class="var">[[MIN]]</span> <span class="txt">min</span><span class="tag">&lt;/div&gt;</span>
+          <span class="tag">&lt;h3&gt;</span><span class="txt">Título do artigo relacionado</span><span class="tag">&lt;/h3&gt;</span>
+          <span class="tag">&lt;p&gt;</span><span class="txt">Subtítulo de 1 linha.</span><span class="tag">&lt;/p&gt;</span>
+          <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"pc-more"</span><span class="tag">&gt;</span><span class="txt">Ler artigo </span><span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"arr"</span><span class="tag">&gt;</span><span class="txt">→</span><span class="tag">&lt;/span&gt;&lt;/span&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/a&gt;</span>
+      <span class="cm">&lt;!-- repita para card 2 e card 3 --&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre>
+
+  <!-- ── GRADIENTES ── -->
+  <h2 id="gradientes">Gradientes de capa</h2>
+  <p>Use de 1 a 4, revezando nos cards da listagem e nos relacionados. Prefira variar — não use o mesmo gradiente em 3 cards seguidos.</p>
+  <div class="swatches">
+    <div class="swatch g1"><span>gradient-1</span></div>
+    <div class="swatch g2"><span>gradient-2</span></div>
+    <div class="swatch g3"><span>gradient-3</span></div>
+    <div class="swatch g4"><span>gradient-4</span></div>
+  </div>
+
+  <!-- ── CATEGORIAS ── -->
+  <h2 id="categorias">Categorias disponíveis</h2>
+  <p>Use sempre uma das categorias abaixo — exatamente como escrito (maiúsculas, acentos). Elas alimentam o filtro da listagem.</p>
+  <div class="chips">
+    <span class="chip">Métricas</span>
+    <span class="chip">Estratégia</span>
+    <span class="chip">Retenção</span>
+    <span class="chip">Customer Success</span>
+    <span class="chip">Aquisição vs. Retenção</span>
+    <span class="chip">Comunidade</span>
+  </div>
+
+  <!-- ── CARD BLOG ── -->
+  <h2 id="card-blog">Card no blog.html</h2>
+  <p>Adicione <strong>no topo</strong> do <code>&lt;div id="postGrid"&gt;</code> em <code>site/blog.html</code> (artigos mais recentes ficam primeiro).</p>
+<pre><span class="tag">&lt;a</span> <span class="attr">class</span>=<span class="val">"post-card"</span> <span class="attr">href</span>=<span class="val">"blog/[[SLUG]]"</span> <span class="attr">data-cat</span>=<span class="val">"[[CATEGORIA]]"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"pc-cover"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="val">"position:absolute;inset:0"</span> <span class="attr">class</span>=<span class="val">"cover-gradient-1"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"pc-tag"</span><span class="tag">&gt;</span><span class="var">[[CATEGORIA]]</span><span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"pc-body"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"pc-meta"</span><span class="tag">&gt;</span><span class="var">[[DATA_BR]]</span> <span class="txt">·</span> <span class="var">[[MIN]]</span> <span class="txt">min</span><span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;h3&gt;</span><span class="var">[[H1]]</span><span class="tag">&lt;/h3&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="txt">Subtítulo do card (1 frase, ≤ 100 chars).</span><span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"pc-more"</span><span class="tag">&gt;</span><span class="txt">Ler artigo </span><span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"arr"</span><span class="tag">&gt;</span><span class="txt">→</span><span class="tag">&lt;/span&gt;&lt;/span&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/a&gt;</span></pre>
+  <div class="box warn">O atributo <code>data-cat</code> no <code>&lt;a&gt;</code> é obrigatório — é ele que liga o card ao filtro por categoria.</div>
+
+  <!-- ── CHECKLIST ── -->
+  <h2 id="checklist">Checklist de publicação</h2>
+  <ul class="checklist">
+    <li>Arquivo criado em <code>site/blog/meu-artigo.html</code> (kebab-case, sem acentos)</li>
+    <li>GTM copiado do template sem alteração</li>
+    <li><code>&lt;title&gt;</code> tem ≤ 60 chars e termina em <code>| Engage</code></li>
+    <li><code>&lt;meta name="description"&gt;</code> tem ≤ 155 chars</li>
+    <li>URL canônica correta: <code>https://www.useengage.com.br/blog/[[SLUG]]</code></li>
+    <li>JSON-LD Article com <code>datePublished</code>, <code>headline</code> e <code>keywords</code></li>
+    <li>JSON-LD FAQPage com as mesmas perguntas do accordion</li>
+    <li>JSON-LD BreadcrumbList com o título do H1 no item 3</li>
+    <li>H1 único na página (não repete no restante do conteúdo)</li>
+    <li>Links internos relativos (ex: <code>href="o-que-e-ltv"</code>, não URL absoluta)</li>
+    <li>Gradiente de capa escolhido (1–4)</li>
+    <li>Seção <code>art-faq</code> com 3–4 perguntas</li>
+    <li>CTA com texto personalizado ao tema</li>
+    <li>3 artigos relacionados na seção "Continue lendo"</li>
+    <li>Card adicionado no topo do <code>#postGrid</code> em <code>blog.html</code></li>
+    <li>Atributo <code>data-cat</code> no card com a categoria exata</li>
+    <li><code>git add site/blog/meu-artigo.html site/blog.html</code></li>
+    <li><code>git commit -m "artigo: título"</code> + <code>git push</code></li>
+  </ul>
+
+  <!-- ── EXEMPLOS ── -->
+  <h2 id="exemplos">Exemplos de artigos</h2>
+  <p>Três artigos completos para você entender o tom, o ritmo e o vocabulário da Engage. A linguagem é <strong>direta, sem rodeios, levemente opinionada</strong> — nunca acadêmica, nunca genérica.</p>
+
+  <!-- tabs -->
+  <div class="ex-tabs">
+    <button class="ex-tab active" data-ex="1">Exemplo 1 · Estratégia</button>
+    <button class="ex-tab" data-ex="2">Exemplo 2 · Métricas</button>
+    <button class="ex-tab" data-ex="3">Exemplo 3 · Customer Success</button>
+  </div>
+
+  <!-- EXEMPLO 1 -->
+  <div class="ex-body active" data-ex="1">
+    <div class="ex-meta">
+      <span class="chip">Estratégia</span>
+      <span class="ex-slug">base-de-clientes-como-ativo</span>
+      <span class="ex-min">6 min · Deivison Vieira</span>
+    </div>
+    <h1 class="ex-h1">A base de clientes é o ativo mais valioso que você tem — e provavelmente está parado</h1>
+
+    <div class="ex-tldr">
+      <div class="ex-tldr-label">Resposta rápida</div>
+      <p>A base de clientes é o conjunto de pessoas que já compraram de você e, portanto, já confiam na sua marca. Quando bem operada — com dados, relacionamento e esteiras de expansão — ela se torna a principal fonte de receita previsível do negócio. Quando ignorada, vira só um banco de dados esquecido.</p>
+    </div>
+
+    <div class="ex-toc">
+      <div class="ex-toc-label">Neste artigo</div>
+      <ol>
+        <li>Por que a base é um ativo, não um dado</li>
+        <li>O que significa "operar a base"</li>
+        <li>O custo de ignorar quem já comprou</li>
+        <li>Por onde começar a trabalhar a base</li>
+      </ol>
+    </div>
+
+    <div class="ex-content">
+      <h2>Por que a base é um ativo, não um dado</h2>
+      <p>Um ativo gera retorno. Um dado, não. A diferença entre empresas que crescem de forma previsível e as que vivem refém de mídia paga está exatamente aqui: as primeiras aprenderam a extrair valor contínuo de quem já comprou; as segundas tratam a base como um arquivo morto.</p>
+      <p>Não é exagero chamar a base de ativo. Um cliente que já comprou tem taxa de conversão até 65% maior em novas ofertas do que um lead frio. Ele já passou pela fricção do primeiro "sim". O custo de convencê-lo de novo é uma fração do CAC original.</p>
+
+      <h2>O que significa "operar a base"</h2>
+      <p>Operar a base não é mandar e-mail marketing. É ter um processo contínuo — com dados, automação e pessoas — rodando sobre os clientes ativos para identificar momentos de recompra, sinais de saída e oportunidades de expansão.</p>
+      <blockquote>Operar = dados + processo + timing. Os três juntos. Qualquer um faltando, a base não trabalha para você.</blockquote>
+      <p>Na prática isso significa: saber quem está sumindo antes de cancelar, quem está pronto para subir de plano, quem tem o perfil certo para indicar. E agir sobre cada grupo com a mensagem certa no momento certo.</p>
+
+      <h2>O custo de ignorar quem já comprou</h2>
+      <p>Empresas que não operam a base pagam um imposto invisível todo mês: o churn silencioso. Clientes que vão embora sem reclamação, sem aviso, simplesmente parando de comprar. Não há sinal de saída porque nunca houve relacionamento suficiente para gerar um sinal.</p>
+      <p>Some isso à oportunidade perdida de expansão — upsell que nunca aconteceu, recompra que dependia de um lembrete que não veio — e o custo real de não operar a base é, na maioria das empresas, muito maior do que o orçamento de aquisição.</p>
+
+      <h2>Por onde começar a trabalhar a base</h2>
+      <p>O primeiro passo é diagnóstico: entender quem está na base, qual o LTV médio, qual o churn e onde estão as maiores concentrações de receita em risco. Sem esse mapa, qualquer ação é tiro no escuro.</p>
+      <p>O segundo passo é priorização: não dá para trabalhar todos os clientes do mesmo jeito. A segmentação por RFV (Recência, Frequência e Valor) mostra quem merece atenção imediata e quem pode entrar numa régua automatizada.</p>
+      <p>O terceiro é processo: uma operação contínua, não uma campanha pontual. Base não se trabalha no improviso de fim de trimestre.</p>
+
+      <div class="ex-takeaways">
+        <div class="ex-tk-label">Pontos-chave</div>
+        <ul>
+          <li>A base é um ativo quando operada — um dado quando ignorada.</li>
+          <li>Clientes existentes convertem mais e custam menos que leads novos.</li>
+          <li>Operar a base exige dados, processo e timing simultâneos.</li>
+          <li>O primeiro passo é diagnóstico: mapear LTV, churn e concentração de risco.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ex-faq">
+      <div class="ex-faq-label">Perguntas frequentes</div>
+      <div class="ex-faq-item">
+        <strong>Qual o tamanho mínimo de base para começar a operar?</strong>
+        <p>Não existe mínimo. Com 200 clientes já dá para segmentar, identificar os de maior risco e criar uma régua de relacionamento. A escala muda a ferramenta, não o princípio.</p>
+      </div>
+      <div class="ex-faq-item">
+        <strong>Base de clientes e CRM são a mesma coisa?</strong>
+        <p>Não. O CRM é a ferramenta que armazena os dados. A base é o ativo em si — as pessoas e o relacionamento com elas. Dá para ter um CRM cheio e não operar a base de forma nenhuma.</p>
+      </div>
+      <div class="ex-faq-item">
+        <strong>Operar a base é responsabilidade de qual área?</strong>
+        <p>Deveria ser transversal, mas costuma ficar sem dono. Customer Success lidera, mas CRM, marketing e produto precisam estar alinhados. Quando não há dono claro, não acontece.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXEMPLO 2 -->
+  <div class="ex-body" data-ex="2">
+    <div class="ex-meta">
+      <span class="chip">Métricas</span>
+      <span class="ex-slug">o-que-e-grr</span>
+      <span class="ex-min">5 min · Deivison Vieira</span>
+    </div>
+    <h1 class="ex-h1">O que é GRR (Gross Revenue Retention) e por que ele revela o piso do seu negócio</h1>
+
+    <div class="ex-tldr">
+      <div class="ex-tldr-label">Resposta rápida</div>
+      <p><strong>GRR (Gross Revenue Retention)</strong> é a porcentagem da receita recorrente que você mantém da sua base existente, descontando churn e contrações — mas <em>sem contar expansão</em>. Ele mostra o piso: quanto do seu MRR sobrevive sem nenhum esforço de upsell. Um GRR saudável está acima de 85%; abaixo disso, a base está derretendo.</p>
+    </div>
+
+    <div class="ex-toc">
+      <div class="ex-toc-label">Neste artigo</div>
+      <ol>
+        <li>O que é GRR e como calcular</li>
+        <li>GRR vs NRR: qual a diferença</li>
+        <li>O que é um bom GRR</li>
+        <li>Como melhorar o GRR</li>
+      </ol>
+    </div>
+
+    <div class="ex-content">
+      <h2>O que é GRR e como calcular</h2>
+      <p>GRR mede a retenção bruta de receita — "bruta" porque exclui qualquer expansão. É o termômetro mais honesto de quanto a sua base se sustenta sozinha, sem depender de upsell ou cross-sell para compensar perdas.</p>
+      <blockquote>GRR = (MRR início do período − churn de receita − contrações) ÷ MRR início do período × 100</blockquote>
+      <p>O resultado nunca ultrapassa 100% — se passou, está incluindo expansão e na verdade está calculando NRR. GRR máximo é 100%, e isso seria uma base sem nenhum cancelamento e sem nenhum downgrade.</p>
+
+      <h2>GRR vs NRR: qual a diferença</h2>
+      <p>A diferença é simples: o NRR inclui expansão (upsell, cross-sell, reativações); o GRR não. Isso faz do GRR um indicador mais conservador e, por isso, mais revelador.</p>
+      <p>Uma empresa pode ter NRR de 110% — aparentemente saudável — mas GRR de 78%. Significa que o crescimento está sendo mascarado por expansão agressiva enquanto a base em si está derretendo. Sem expansão, ela encolheria 22% ao ano.</p>
+      <blockquote>NRR alto com GRR baixo é sinal de alerta, não de saúde.</blockquote>
+
+      <h2>O que é um bom GRR</h2>
+      <p>Depende do mercado, mas há referências sólidas:</p>
+      <ul>
+        <li><strong>Acima de 90%</strong> — excelente para a maioria dos modelos de receita recorrente;</li>
+        <li><strong>85%–90%</strong> — aceitável, mas há espaço para melhora significativa;</li>
+        <li><strong>Abaixo de 85%</strong> — a base está corroendo mais rápido do que parece; requer ação imediata.</li>
+      </ul>
+      <p>Empresas de SaaS enterprise costumam ter GRR mais alto (90%+) porque contratos são longos e downgrades são raros. Em modelos transacionais ou de assinatura B2C, 85% já é um resultado respeitável.</p>
+
+      <h2>Como melhorar o GRR</h2>
+      <p>Melhorar GRR significa atacar churn e contrações. As alavancas principais são:</p>
+      <ul>
+        <li><strong>Health score</strong> — identificar sinais de saída antes que virem cancelamento;</li>
+        <li><strong>Onboarding sólido</strong> — clientes que ativam bem têm churn muito menor nos primeiros 90 dias;</li>
+        <li><strong>Acompanhamento proativo</strong> — não esperar o cliente reclamar para agir;</li>
+        <li><strong>Política de preços clara</strong> — surpresas na fatura são a causa mais evitável de downgrade.</li>
+      </ul>
+
+      <div class="ex-takeaways">
+        <div class="ex-tk-label">Pontos-chave</div>
+        <ul>
+          <li>GRR mede retenção sem expansão — é o piso do negócio.</li>
+          <li>Fórmula: (MRR − churn − contrações) ÷ MRR inicial × 100.</li>
+          <li>GRR acima de 90% é referência saudável para recorrentes B2B.</li>
+          <li>NRR alto com GRR baixo mascara uma base que está derretendo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ex-faq">
+      <div class="ex-faq-label">Perguntas frequentes</div>
+      <div class="ex-faq-item">
+        <strong>GRR pode ser maior que 100%?</strong>
+        <p>Não. Por definição, GRR exclui expansão, então o teto é 100% (base sem cancelamentos e sem downgrades). Se o número passou de 100%, há expansão sendo contabilizada — o que transforma o indicador em NRR.</p>
+      </div>
+      <div class="ex-faq-item">
+        <strong>Com que frequência calcular o GRR?</strong>
+        <p>Mensalmente para acompanhamento operacional. Trimestralmente para revisão estratégica. O importante é manter o período fixo para que as comparações façam sentido.</p>
+      </div>
+      <div class="ex-faq-item">
+        <strong>Qual a diferença entre churn de clientes e churn de receita no GRR?</strong>
+        <p>O GRR usa churn de <em>receita</em> (MRR perdido), não de clientes. Um cliente pequeno que cancela pesa menos do que um grande que faz downgrade. Por isso o GRR é mais preciso para entender o impacto financeiro real.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXEMPLO 3 -->
+  <div class="ex-body" data-ex="3">
+    <div class="ex-meta">
+      <span class="chip">Customer Success</span>
+      <span class="ex-slug">onboarding-de-clientes</span>
+      <span class="ex-min">7 min · Deivison Vieira</span>
+    </div>
+    <h1 class="ex-h1">Onboarding de clientes: o que é e por que ele define o LTV desde o primeiro dia</h1>
+
+    <div class="ex-tldr">
+      <div class="ex-tldr-label">Resposta rápida</div>
+      <p><strong>Onboarding de clientes</strong> é o processo estruturado de receber, ativar e garantir que o cliente alcance seu primeiro resultado com o produto ou serviço. É o momento que mais influencia retenção, expansão e indicação — e o que a maioria das empresas faz no improviso.</p>
+    </div>
+
+    <div class="ex-toc">
+      <div class="ex-toc-label">Neste artigo</div>
+      <ol>
+        <li>O que é onboarding de clientes</li>
+        <li>Por que o onboarding define o LTV</li>
+        <li>As etapas de um bom onboarding</li>
+        <li>Erros que sabotam o onboarding</li>
+        <li>Como medir se o onboarding está funcionando</li>
+      </ol>
+    </div>
+
+    <div class="ex-content">
+      <h2>O que é onboarding de clientes</h2>
+      <p>Onboarding é o período entre a venda e o primeiro resultado concreto que o cliente obtém com o que comprou. Não é um e-mail de boas-vindas. Não é um tutorial gravado. É um processo com dono, etapas, critérios de sucesso e acompanhamento ativo.</p>
+      <p>Em negócios de serviço, o onboarding pode durar semanas. Em SaaS, os primeiros 14 dias costumam ser decisivos. Em qualquer modelo, o princípio é o mesmo: o cliente precisa perceber valor antes de ter tempo de se arrepender da compra.</p>
+
+      <h2>Por que o onboarding define o LTV</h2>
+      <p>Clientes que chegam ao primeiro resultado concreto nos primeiros 30 dias cancelam menos, expandem mais e indicam com mais frequência. A causalidade é direta: quem percebe valor cedo constrói o hábito de usar. Quem não percebe começa a questionar o investimento.</p>
+      <blockquote>O LTV de um cliente começa a ser construído — ou destruído — nas primeiras semanas após a venda.</blockquote>
+      <p>Isso transforma o onboarding no investimento com maior retorno que uma empresa de receita recorrente pode fazer. Melhorar a ativação nos primeiros 30 dias tem efeito composto: menos churn nos meses seguintes, mais expansão no médio prazo, mais indicações no longo prazo.</p>
+
+      <h2>As etapas de um bom onboarding</h2>
+      <p>Todo onboarding eficiente passa por três momentos:</p>
+      <ul>
+        <li><strong>Alinhamento</strong> — entender o que o cliente quer alcançar, não o que você quer vender. O objetivo do cliente é o norte do processo.</li>
+        <li><strong>Ativação</strong> — garantir que o cliente complete as ações que levam ao primeiro resultado. Sem ativação, o onboarding é só burocracia.</li>
+        <li><strong>Confirmação</strong> — verificar se o cliente percebeu valor. Um check-in no dia 14 ou 30 faz diferença — tanto para resolver problemas antes que virem churn quanto para documentar o sucesso como prova social.</li>
+      </ul>
+
+      <h2>Erros que sabotam o onboarding</h2>
+      <p>Os deslizes mais comuns que transformam o início do relacionamento em porta de saída:</p>
+      <ul>
+        <li>Transferir a responsabilidade para o cliente ("é só seguir o tutorial");</li>
+        <li>Onboarding igual para todos os perfis de cliente;</li>
+        <li>Não ter um critério claro do que é "cliente ativado";</li>
+        <li>Parar o acompanhamento assim que o contrato está assinado;</li>
+        <li>Confundir onboarding com treinamento de ferramenta.</li>
+      </ul>
+      <p>O último ponto merece atenção: treinar o cliente para usar o produto não é o objetivo do onboarding. O objetivo é garantir que o cliente atinja o resultado que ele comprou.</p>
+
+      <h2>Como medir se o onboarding está funcionando</h2>
+      <p>As métricas mais diretas são:</p>
+      <ul>
+        <li><strong>Taxa de ativação</strong> — % de clientes que completam as etapas de onboarding no prazo;</li>
+        <li><strong>Time to first value</strong> — tempo médio até o cliente reportar (ou demonstrar) o primeiro resultado;</li>
+        <li><strong>Churn nos primeiros 90 dias</strong> — o termômetro mais brutal da qualidade do onboarding;</li>
+        <li><strong>NPS aos 30 dias</strong> — mede a percepção antes que o cliente tenha passado por muito mais do que o onboarding.</li>
+      </ul>
+
+      <div class="ex-takeaways">
+        <div class="ex-tk-label">Pontos-chave</div>
+        <ul>
+          <li>Onboarding é o processo até o primeiro resultado — não o e-mail de boas-vindas.</li>
+          <li>Ativação precoce reduz churn, aumenta expansão e gera indicação.</li>
+          <li>O objetivo não é ensinar a ferramenta, mas garantir o resultado comprado.</li>
+          <li>Meça: taxa de ativação, time to first value e churn nos primeiros 90 dias.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ex-faq">
+      <div class="ex-faq-label">Perguntas frequentes</div>
+      <div class="ex-faq-item">
+        <strong>Onboarding de clientes é diferente de onboarding de funcionários?</strong>
+        <p>São processos completamente distintos. O onboarding de clientes foca em garantir que o comprador perceba valor e alcance resultado. O de funcionários é sobre integração cultural e operacional. A confusão do termo não deve confundir os processos.</p>
+      </div>
+      <div class="ex-faq-item">
+        <strong>Quando o onboarding termina?</strong>
+        <p>Quando o cliente atinge o primeiro resultado mensurável — o chamado "first value moment". A partir daí começa a fase de adoção. Definir esse marco claramente é essencial para saber quando o cliente passou da fase crítica.</p>
+      </div>
+      <div class="ex-faq-item">
+        <strong>Dá para automatizar o onboarding?</strong>
+        <p>Parcialmente. Comunicações, lembretes e entrega de conteúdo podem ser automatizados. Mas o acompanhamento humano nos momentos-chave — especialmente quando o cliente trava — ainda é insubstituível para clientes de maior valor.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TEMPLATE ── -->
+  <h2 id="template-completo">Template HTML completo</h2>
+  <p>Copie o arquivo <code>site/blog/o-que-e-ltv.html</code> como ponto de partida — é o mais completo e bem estruturado. Substitua os <code>[[CAMPOS]]</code> conforme a tabela acima.</p>
+  <div class="box ok">Dica: peça ao Claude para escrever o artigo completo informando título, categoria, palavras-chave e 4–5 pontos que devem estar no conteúdo. Ele entrega o HTML pronto para publicar.</div>
+
+</main>
+</div>
+
+<script>
+// tabs
+document.querySelectorAll('.ex-tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    var ex = tab.getAttribute('data-ex');
+    document.querySelectorAll('.ex-tab').forEach(function(t){ t.classList.toggle('active', t===tab); });
+    document.querySelectorAll('.ex-body').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-ex')===ex); });
+  });
+});
+// highlight active nav item on scroll
+const sections = document.querySelectorAll('h2[id]');
+const links = document.querySelectorAll('.sidebar nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector('.sidebar nav a[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

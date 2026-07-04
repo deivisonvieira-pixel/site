@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Engage · Design Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="engage.css" />
+<style>
+/* ── guide chrome ─────────────────────────────────────── */
+:root {
+  --guide-sidebar: 248px;
+  --guide-mono: 'JetBrains Mono', monospace;
+}
+body { background: #F0EDE6; }
+
+.guide-layout {
+  display: grid;
+  grid-template-columns: var(--guide-sidebar) 1fr;
+  min-height: 100vh;
+}
+
+/* sidebar */
+.g-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--deep);
+  color: var(--cream-soft);
+  padding: 28px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a2a5a transparent;
+}
+.g-sidebar::-webkit-scrollbar { width: 4px; }
+.g-sidebar::-webkit-scrollbar-thumb { background: #3a2a5a; border-radius: 2px; }
+
+.g-logo { height: 32px; margin-bottom: 28px; display: block; }
+
+.g-nav-section {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #4a3a6a;
+  margin: 22px 0 6px;
+}
+.g-nav a {
+  display: block;
+  font-size: 13px;
+  color: #a090c0;
+  text-decoration: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  line-height: 1.3;
+}
+.g-nav a:hover { color: var(--cream); background: rgba(255,255,255,.05); }
+.g-nav a.active { color: #fff; border-left-color: var(--lilac); background: rgba(192,160,255,.08); }
+
+/* main */
+.g-main {
+  padding: 56px clamp(32px,5vw,72px) 100px;
+  max-width: 980px;
+}
+
+/* section headers */
+.g-section { margin-bottom: 80px; scroll-margin-top: 32px; }
+.g-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+.g-section h2 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.g-section .g-desc {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 0 0 32px;
+  max-width: 600px;
+  line-height: 1.6;
+}
+.g-divider { height: 1px; background: var(--line); margin: 0 0 80px; }
+
+/* label above a demo block */
+.g-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 10px;
+}
+
+/* demo frame */
+.demo {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.demo-pad {
+  padding: clamp(24px,4vw,40px);
+  background: var(--paper-card);
+}
+.demo-pad.dark {
+  background: var(--grad-deep);
+  position: relative;
+  overflow: hidden;
+}
+.demo-pad.dark::before {
+  content:'';
+  position:absolute;
+  top:-40%; right:-10%;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(155,77,224,.38),transparent 60%);
+  filter:blur(16px);
+  pointer-events:none;
+}
+.demo-pad.dark > * { position:relative; z-index:1; }
+.demo-pad.paper2 { background: var(--paper-2); }
+
+/* code pill */
+.token-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--guide-mono);
+  font-size: 12px;
+  background: #1B1525;
+  color: #c0a0ff;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* color grid */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.color-chip {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.color-chip .swatch {
+  height: 72px;
+}
+.color-chip .info {
+  padding: 10px 12px;
+  background: var(--paper-card);
+}
+.color-chip .cn { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.color-chip .cv { font-family: var(--guide-mono); font-size: 11px; color: var(--ink-mute); }
+
+/* gradient grid */
+.grad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.grad-chip {
+  border-radius: 14px;
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.grad-chip .gn { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.9); }
+.grad-chip .gv { font-family: var(--guide-mono); font-size: 10px; color: rgba(255,255,255,.55); margin-top: 2px; }
+
+/* type scale */
+.type-row {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 12px 24px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.type-row:first-child { border-top: 1px solid var(--line); }
+.type-row .tr-meta { text-align: right; }
+.type-row .tr-name { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute); }
+.type-row .tr-spec { font-family: var(--guide-mono); font-size: 11px; color: var(--purple); }
+
+/* button row */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  padding: 28px;
+  background: var(--paper-card);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.btn-row.on-dark {
+  background: var(--grad-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+/* input row */
+.input-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 20px;
+  padding: 28px;
+  background: var(--paper-card);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.field .hint { font-size: 12px; color: var(--ink-mute); }
+.field input, .field select, .field textarea {
+  font-family: var(--sans); font-size: 16px; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line-strong);
+  border-radius: 10px; padding: 13px 16px; outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  appearance: none; -webkit-appearance: none; width: 100%;
+}
+.field input:focus, .field select:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--purple) 16%, transparent);
+}
+.field input::placeholder { color: var(--ink-mute); }
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8194' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+/* section rhythm diagram */
+.rhythm-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.rh-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.rh-row .rh-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  min-width: 60px;
+  text-align: center;
+}
+.rh-row.light { background: var(--paper-card); color: var(--ink); }
+.rh-row.light .rh-tag { background: var(--line); color: var(--ink-mute); }
+.rh-row.dark2 { background: #20114A; color: var(--cream-soft); }
+.rh-row.dark2 .rh-tag { background: rgba(192,160,255,.2); color: var(--lilac); }
+.rh-row.warn { background: #fdeee4; color: #7a3010; }
+.rh-row.warn .rh-tag { background: #f9d0b4; color: #c75a1a; }
+
+/* nav preview */
+.nav-preview {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.np-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  font-size: 13.5px;
+  font-weight: 500;
+  gap: 20px;
+}
+.np-bar.np-dark { background: var(--deep); color: var(--cream-soft); }
+.np-bar.np-light { background: color-mix(in oklab, var(--paper) 86%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); color: var(--ink-soft); }
+.np-links { display: flex; gap: 24px; }
+.np-cta-dark { background: var(--cream); color: var(--deep); padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+.np-cta-light { background: var(--purple); color: #fff; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+.np-logo { height: 28px; }
+
+/* card preview */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 16px;
+}
+
+/* spacing table */
+.spacing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sp-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 120px;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+.sp-bar { height: 8px; background: var(--grad-num); border-radius: 4px; }
+.sp-token { font-family: var(--guide-mono); font-size: 12px; color: var(--purple); }
+.sp-val { font-family: var(--guide-mono); font-size: 12px; color: var(--ink-mute); text-align: right; }
+
+@media (max-width: 800px) {
+  .guide-layout { grid-template-columns: 1fr; }
+  .g-sidebar { position: static; height: auto; }
+  .g-main { padding: 32px 24px 60px; }
+  .type-row { grid-template-columns: 1fr; }
+  .type-row .tr-meta { text-align: left; }
+}
+</style>
+</head>
+<body>
+<div class="guide-layout">
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="g-sidebar">
+  <img class="g-logo" src="logo-engage-light.png" alt="Engage" />
+  <nav class="g-nav">
+    <div class="g-nav-section">Fundamentos</div>
+    <a href="#marca">Marca &amp; Logo</a>
+    <a href="#cores">Cores</a>
+    <a href="#gradientes">Gradientes</a>
+    <a href="#tipografia">Tipografia</a>
+    <a href="#espacamento">Espaçamento</a>
+
+    <div class="g-nav-section">Componentes</div>
+    <a href="#botoes">Botões</a>
+    <a href="#inputs">Inputs</a>
+    <a href="#cards">Cards</a>
+    <a href="#nav-comp">Nav</a>
+
+    <div class="g-nav-section">Padrões</div>
+    <a href="#ritmo">Ritmo de seções</a>
+    <a href="#hero">Hero</a>
+    <a href="#regras">Regras</a>
+  </nav>
+</aside>
+
+<!-- ── MAIN ────────────────────────────────────────────────── -->
+<main class="g-main">
+
+  <div style="margin-bottom:48px">
+    <div class="g-section-title">Engage</div>
+    <h1 style="font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-0.035em;margin:0 0 10px;color:var(--ink)">Design Guide</h1>
+    <p style="font-size:15px;color:var(--ink-soft);margin:0;max-width:540px;line-height:1.6">Referência visual para criar páginas, ferramentas e conteúdo dentro da identidade Engage. Qualquer coisa nova deve partir daqui.</p>
+  </div>
+
+  <!-- ════ MARCA ════════════════════════════════════════════ -->
+  <section class="g-section" id="marca">
+    <div class="g-section-title">01</div>
+    <h2>Marca &amp; Logo</h2>
+    <p class="g-desc">Dois arquivos, duas situações. Nunca distorça, recorte ou recolore os logos.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+      <div class="demo">
+        <div class="demo-pad dark" style="min-height:120px;display:flex;align-items:center;justify-content:center">
+          <img src="logo-engage-light.png" style="height:48px" alt="Logo branco" />
+        </div>
+        <div style="padding:14px 18px;background:var(--paper-card)">
+          <div class="g-label" style="margin:0 0 4px">Logo branco</div>
+          <div class="token-pill">logo-engage-light.png</div>
+          <p style="font-size:12.5px;color:var(--ink-soft);margin:8px 0 0">Fundos escuros, nav antes do scroll, footer, menu mobile.</p>
+        </div>
+      </div>
+      <div class="demo">
+        <div class="demo-pad" style="min-height:120px;display:flex;align-items:center;justify-content:center;background:var(--paper-2)">
+          <img src="logo-engage-dark.png" style="height:48px" alt="Logo escuro" />
+        </div>
+        <div style="padding:14px 18px;background:var(--paper-card)">
+          <div class="g-label" style="margin:0 0 4px">Logo escuro (prata/preto)</div>
+          <div class="token-pill">logo-engage-dark.png</div>
+          <p style="font-size:12.5px;color:var(--ink-soft);margin:8px 0 0">Nav após scroll, fundos claros, documentos impressos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:20px 24px">
+      <div class="g-label">Tamanhos mínimos</div>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:center;margin-top:8px">
+        <div style="text-align:center">
+          <img src="logo-engage-dark.png" style="height:38px;display:block;margin:0 auto 8px" alt="" />
+          <div style="font-size:12px;color:var(--ink-mute)">Nav · 38px</div>
+        </div>
+        <div style="text-align:center">
+          <img src="logo-engage-dark.png" style="height:42px;display:block;margin:0 auto 8px" alt="" />
+          <div style="font-size:12px;color:var(--ink-mute)">Footer / Mobile · 42px</div>
+        </div>
+        <div style="text-align:center">
+          <img src="logo-engage-dark.png" style="height:56px;display:block;margin:0 auto 8px" alt="" />
+          <div style="font-size:12px;color:var(--ink-mute)">Documentos · 56px+</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ CORES ════════════════════════════════════════════ -->
+  <section class="g-section" id="cores">
+    <div class="g-section-title">02</div>
+    <h2>Cores</h2>
+    <p class="g-desc">Paleta mono-roxa. Sem cores de acento externas à família roxo/lilás. Vermelho e verde só para estados de erro/sucesso em interfaces funcionais.</p>
+
+    <div class="g-label">Primárias</div>
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="swatch" style="background:#6E2CB8"></div>
+        <div class="info"><div class="cn">Purple</div><div class="cv">--purple · #6E2CB8</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#9B4DE0"></div>
+        <div class="info"><div class="cn">Purple Bright</div><div class="cv">--purple-bright · #9B4DE0</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#C0A0FF"></div>
+        <div class="info"><div class="cn">Lilac</div><div class="cv">--lilac · #C0A0FF</div></div>
+      </div>
+    </div>
+
+    <div class="g-label">Fundos claros</div>
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="swatch" style="background:#F4F1EA;border-bottom:1px solid #e5e0d6"></div>
+        <div class="info"><div class="cn">Paper</div><div class="cv">--paper · #F4F1EA</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#ECE7DB;border-bottom:1px solid #e5e0d6"></div>
+        <div class="info"><div class="cn">Paper 2</div><div class="cv">--paper-2 · #ECE7DB</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#FBFAF4;border-bottom:1px solid #e5e0d6"></div>
+        <div class="info"><div class="cn">Paper Card</div><div class="cv">--paper-card · #FBFAF4</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#F3EFE7;border-bottom:1px solid #e5e0d6"></div>
+        <div class="info"><div class="cn">Cream</div><div class="cv">--cream · #F3EFE7</div></div>
+      </div>
+    </div>
+
+    <div class="g-label">Fundos escuros</div>
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="swatch" style="background:#1B0E36"></div>
+        <div class="info"><div class="cn">Deep</div><div class="cv">--deep · #1B0E36</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#150A2A"></div>
+        <div class="info"><div class="cn">Deep 2</div><div class="cv">--deep-2 · #150A2A</div></div>
+      </div>
+    </div>
+
+    <div class="g-label">Texto</div>
+    <div class="color-grid">
+      <div class="color-chip">
+        <div class="swatch" style="background:#1B1525"></div>
+        <div class="info"><div class="cn">Ink</div><div class="cv">--ink · #1B1525</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#4A4254"></div>
+        <div class="info"><div class="cn">Ink Soft</div><div class="cv">--ink-soft · #4A4254</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#8A8194"></div>
+        <div class="info"><div class="cn">Ink Mute</div><div class="cv">--ink-mute · #8A8194</div></div>
+      </div>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ GRADIENTES ═══════════════════════════════════════ -->
+  <section class="g-section" id="gradientes">
+    <div class="g-section-title">03</div>
+    <h2>Gradientes</h2>
+    <p class="g-desc">Sempre mono-roxo — da família profunda para o lilás. Nunca arco-íris. Os gradientes tonais são a assinatura visual da Engage.</p>
+
+    <div class="grad-grid">
+      <div class="grad-chip" style="background:linear-gradient(150deg,#20114A 0%,#2E1860 48%,#1A0E36 100%)">
+        <div class="gn">--grad-deep</div>
+        <div class="gv">Fundo de hero e seções escuras</div>
+      </div>
+      <div class="grad-chip" style="background:linear-gradient(140deg,#6E2CB8 0%,#B98CFF 100%)">
+        <div class="gn">--grad-num</div>
+        <div class="gv">Números, ícones, fills de destaque</div>
+      </div>
+      <div class="grad-chip" style="background:linear-gradient(101deg,#CBB0FF 0%,#9B6BFF 52%,#B98CFF 100%)">
+        <div class="gn">--grad-text</div>
+        <div class="gv">Textos em clip sobre fundo escuro</div>
+      </div>
+    </div>
+
+    <div class="g-label">Gradientes de capa (blog)</div>
+    <div class="grad-grid">
+      <div class="grad-chip" style="background:linear-gradient(135deg,#2E1860,#6E2CB8 60%,#9B4DE0)">
+        <div class="gn">cover-gradient-1</div>
+      </div>
+      <div class="grad-chip" style="background:linear-gradient(135deg,#1B0E36,#4A1E8C 55%,#B98CFF)">
+        <div class="gn">cover-gradient-2</div>
+      </div>
+      <div class="grad-chip" style="background:linear-gradient(135deg,#3A1E6E,#8B3FE0 60%,#C0A0FF)">
+        <div class="gn">cover-gradient-3</div>
+      </div>
+      <div class="grad-chip" style="background:linear-gradient(135deg,#20114A,#6E2CB8)">
+        <div class="gn">cover-gradient-4</div>
+      </div>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ TIPOGRAFIA ═══════════════════════════════════════ -->
+  <section class="g-section" id="tipografia">
+    <div class="g-section-title">04</div>
+    <h2>Tipografia</h2>
+    <p class="g-desc">Uma única família: <strong>Schibsted Grotesk</strong>. Versátil, expressiva em pesos altos, legível em tamanhos pequenos. Nunca substitua por Inter, Roboto ou Arial.</p>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin-bottom:32px">
+      <div class="g-label">Família</div>
+      <p style="font-size:32px;font-weight:800;letter-spacing:-0.03em;margin:8px 0 4px;color:var(--ink)">Schibsted Grotesk</p>
+      <p style="font-size:16px;font-weight:400;color:var(--ink-soft);margin:0">Regular · Medium · SemiBold · Bold · ExtraBold · Italic</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--purple);margin:12px 0 0">--sans: 'Schibsted Grotesk', system-ui, sans-serif</p>
+    </div>
+
+    <div class="g-label">Escala tipográfica</div>
+    <div style="margin-bottom:32px">
+      <div class="type-row">
+        <div style="font-size:clamp(40px,5.6vw,84px);font-weight:700;letter-spacing:-0.038em;line-height:1;color:var(--ink)">Hero H1</div>
+        <div class="tr-meta"><div class="tr-name">Hero H1</div><div class="tr-spec">clamp(40px,5.6vw,84px) · 700</div></div>
+      </div>
+      <div class="type-row">
+        <div style="font-size:clamp(30px,3.7vw,52px);font-weight:700;letter-spacing:-0.03em;line-height:1.04;color:var(--ink)">Section H2</div>
+        <div class="tr-meta"><div class="tr-name">Section H2</div><div class="tr-spec">clamp(30px,3.7vw,52px) · 700</div></div>
+      </div>
+      <div class="type-row">
+        <div style="font-size:clamp(22px,3vw,32px);font-weight:800;letter-spacing:-0.03em;color:var(--ink)">Guide H2</div>
+        <div class="tr-meta"><div class="tr-name">Guide/Tool H2</div><div class="tr-spec">clamp(22px,3vw,32px) · 800</div></div>
+      </div>
+      <div class="type-row">
+        <div style="font-size:clamp(17px,1.7vw,20px);font-weight:600;letter-spacing:-0.01em;color:var(--ink)">FAQ / Card Title</div>
+        <div class="tr-meta"><div class="tr-name">H3 / Card</div><div class="tr-spec">clamp(17px,1.7vw,20px) · 600</div></div>
+      </div>
+      <div class="type-row">
+        <div style="font-size:clamp(17px,1.4vw,21px);color:var(--ink-soft);line-height:1.55">Subtítulo e lead text — leiturabilidade antes de tudo.</div>
+        <div class="tr-meta"><div class="tr-name">Lead</div><div class="tr-spec">clamp(17px,1.4vw,21px) · 400</div></div>
+      </div>
+      <div class="type-row">
+        <div style="font-size:16px;color:var(--ink-soft);line-height:1.6">Corpo de texto padrão. Parágrafos, listas, descrições de UI.</div>
+        <div class="tr-meta"><div class="tr-name">Body</div><div class="tr-spec">16px · 400</div></div>
+      </div>
+      <div class="type-row">
+        <div style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)">Engage · Kicker Label</div>
+        <div class="tr-meta"><div class="tr-name">Kicker</div><div class="tr-spec">12px · 600 · uppercase</div></div>
+      </div>
+    </div>
+
+    <div class="g-label">Texto gradiente (em destaque)</div>
+    <div class="demo">
+      <div class="demo-pad dark">
+        <p style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.035em;margin:0;background-image:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent">Texto com <em style="font-style:normal">clip gradient.</em></p>
+        <p style="font-size:13px;color:var(--cream-mute);margin:10px 0 0;font-family:'JetBrains Mono',monospace">background-image: var(--grad-text); + clip</p>
+      </div>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ ESPAÇAMENTO ══════════════════════════════════════ -->
+  <section class="g-section" id="espacamento">
+    <div class="g-section-title">05</div>
+    <h2>Espaçamento &amp; Layout</h2>
+    <p class="g-desc">O layout usa <strong>fluid spacing</strong> com <code>clamp()</code>. Nunca valores fixos em px para padding de seção ou margens de conteúdo.</p>
+
+    <div class="spacing-grid" style="margin-bottom:32px">
+      <div class="sp-row">
+        <span class="sp-token">--pad</span>
+        <div><div class="sp-bar" style="width:100%"></div></div>
+        <span class="sp-val">clamp(22px,5vw,88px)</span>
+      </div>
+      <div class="sp-row">
+        <span class="sp-token">section</span>
+        <div><div class="sp-bar" style="width:85%"></div></div>
+        <span class="sp-val">clamp(72px,9vw,128px)</span>
+      </div>
+      <div class="sp-row">
+        <span class="sp-token">section.tight</span>
+        <div><div class="sp-bar" style="width:70%"></div></div>
+        <span class="sp-val">clamp(56px,7vw,96px)</span>
+      </div>
+      <div class="sp-row">
+        <span class="sp-token">--maxw</span>
+        <div><div class="sp-bar" style="width:55%"></div></div>
+        <span class="sp-val">1280px</span>
+      </div>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:20px 24px">
+      <div class="g-label">Regra do wrap</div>
+      <p style="font-size:14px;color:var(--ink-soft);margin:8px 0 0">Todo conteúdo vive dentro de <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#ede8f8;color:var(--purple);padding:2px 6px;border-radius:4px">.wrap</code> — max-width 1280px centrado com padding lateral fluido. Nunca defina larguras absolutas diretamente em seções.</p>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ BOTÕES ═══════════════════════════════════════════ -->
+  <section class="g-section" id="botoes">
+    <div class="g-section-title">06</div>
+    <h2>Botões</h2>
+    <p class="g-desc">Quatro variantes. Cada uma com um papel claro — nunca misture dois primários na mesma área de ação.</p>
+
+    <div class="g-label">Em fundo escuro (hero, seções dark)</div>
+    <div class="btn-row on-dark">
+      <a href="#" class="btn btn-cream" onclick="return false">Primário escuro <span class="arr">→</span></a>
+      <a href="#" class="btn btn-text on-dark" onclick="return false">Texto escuro <span class="arr">→</span></a>
+    </div>
+
+    <div class="g-label">Em fundo claro (seções paper, ferramentas)</div>
+    <div class="btn-row">
+      <a href="#" class="btn btn-purple" onclick="return false">Primário roxo <span class="arr">→</span></a>
+      <a href="#" class="btn btn-outline" onclick="return false">Outline</a>
+      <a href="#" class="btn btn-text" onclick="return false">Texto claro <span class="arr">→</span></a>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-top:4px">
+      <div class="g-label">Regras de uso</div>
+      <ul style="font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;padding-left:18px;line-height:1.8">
+        <li><strong>btn-cream</strong> — CTA principal em hero escuro e footer. Máximo 1 por tela.</li>
+        <li><strong>btn-purple</strong> — ação principal em contexto claro (formulários, tools).</li>
+        <li><strong>btn-outline</strong> — ação secundária ou alternativa. Nunca como único botão.</li>
+        <li><strong>btn-text</strong> — ação terciária, links de navegação dentro do conteúdo.</li>
+      </ul>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ INPUTS ═══════════════════════════════════════════ -->
+  <section class="g-section" id="inputs">
+    <div class="g-section-title">07</div>
+    <h2>Inputs</h2>
+    <p class="g-desc">Inputs sempre em fundo branco (#fff), borda sólida, foco roxo. Nunca em fundo paper diretamente (contraste insuficiente).</p>
+
+    <div class="input-demo">
+      <div class="field">
+        <label>Nome da empresa</label>
+        <input type="text" placeholder="ex: Acme Ltda" />
+      </div>
+      <div class="field">
+        <label>Segmento</label>
+        <select>
+          <option value="">Selecione…</option>
+          <option>E-commerce</option>
+          <option>SaaS</option>
+          <option>Serviços</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Total de clientes</label>
+        <span class="hint">Clientes com pelo menos 1 compra ativa</span>
+        <input type="number" placeholder="ex: 1.200" />
+      </div>
+      <div class="field">
+        <label>Observações</label>
+        <textarea placeholder="Contexto adicional…" style="min-height:80px;line-height:1.5"></textarea>
+      </div>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px">
+      <div class="g-label">Estados</div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;align-items:flex-start">
+        <div class="field" style="min-width:180px">
+          <label style="font-size:13px">Default</label>
+          <input type="text" placeholder="Placeholder" style="border-color:var(--line-strong)" />
+        </div>
+        <div class="field" style="min-width:180px">
+          <label style="font-size:13px">Foco</label>
+          <input type="text" value="Texto digitado" style="border-color:var(--purple);box-shadow:0 0 0 3px color-mix(in oklab,var(--purple) 16%,transparent)" />
+        </div>
+        <div class="field" style="min-width:180px">
+          <label style="font-size:13px">Erro</label>
+          <input type="text" value="Valor inválido" style="border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.12)" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ CARDS ════════════════════════════════════════════ -->
+  <section class="g-section" id="cards">
+    <div class="g-section-title">08</div>
+    <h2>Cards</h2>
+    <p class="g-desc">Cards têm sempre fundo <code>--paper-card</code>, borda sutil e hover com elevação. Cantos de 14px para cards maiores, 10–12px para elementos pequenos.</p>
+
+    <div class="demo">
+      <div class="demo-pad paper2">
+        <div class="card-grid">
+          <div class="card">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:12px">Retenção</div>
+            <h3 style="font-size:18px;font-weight:700;margin:0 0 10px;letter-spacing:-0.02em">Como reduzir churn no primeiro trimestre</h3>
+            <p style="font-size:14px;color:var(--ink-soft);margin:0 0 20px;line-height:1.55">Os primeiros 90 dias definem se o cliente fica ou vai embora.</p>
+            <a href="#" class="btn-text" onclick="return false" style="font-size:14px;margin-top:auto">Ler mais <span class="arr">→</span></a>
+          </div>
+          <div class="card">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:12px">Métricas</div>
+            <h3 style="font-size:18px;font-weight:700;margin:0 0 10px;letter-spacing:-0.02em">LTV/CAC: o indicador que separa operações saudáveis</h3>
+            <p style="font-size:14px;color:var(--ink-soft);margin:0 0 20px;line-height:1.55">Razão abaixo de 3:1 é sinal de alerta em qualquer modelo.</p>
+            <a href="#" class="btn-text" onclick="return false" style="font-size:14px;margin-top:auto">Ler mais <span class="arr">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ NAV ══════════════════════════════════════════════ -->
+  <section class="g-section" id="nav-comp">
+    <div class="g-section-title">09</div>
+    <h2>Nav</h2>
+    <p class="g-desc">A nav é fixa (<code>position: fixed</code>), transparente no topo (sobre o hero escuro) e muda de estado ao rolar. O logo troca automaticamente.</p>
+
+    <div class="g-label">Estado inicial (topo da página · fundo escuro)</div>
+    <div class="nav-preview">
+      <div class="np-bar np-dark">
+        <img src="logo-engage-light.png" class="np-logo" alt="Engage" />
+        <div class="np-links">
+          <span>Como funciona</span><span>Plataforma</span><span>Resultados</span><span>Blog</span>
+        </div>
+        <span class="np-cta-dark">Agendar diagnóstico</span>
+      </div>
+    </div>
+
+    <div class="g-label">Estado scrolled (após 30px de scroll · fundo claro)</div>
+    <div class="nav-preview">
+      <div class="np-bar np-light">
+        <img src="logo-engage-dark.png" class="np-logo" alt="Engage" />
+        <div class="np-links">
+          <span>Como funciona</span><span>Plataforma</span><span>Resultados</span><span>Blog</span>
+        </div>
+        <span class="np-cta-light">Agendar diagnóstico</span>
+      </div>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-top:4px">
+      <div class="g-label">Como funciona</div>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;line-height:1.7">A classe <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#ede8f8;color:var(--purple);padding:2px 5px;border-radius:4px">.scrolled</code> é adicionada ao <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#ede8f8;color:var(--purple);padding:2px 5px;border-radius:4px">.nav</code> pelo JS quando <code>window.scrollY > 30</code>. Ela ativa o fundo translúcido, o logo escuro e o CTA roxo via CSS puro — sem JS extra.</p>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ RITMO ════════════════════════════════════════════ -->
+  <section class="g-section" id="ritmo">
+    <div class="g-section-title">10</div>
+    <h2>Ritmo de seções</h2>
+    <p class="g-desc">Regra 70/30: a maior parte da página é clara (legível, respira). O escuro é pontuação — cria contraste e direciona a atenção para o CTA.</p>
+
+    <div class="rhythm-diagram">
+      <div class="rh-row dark2"><span class="rh-tag">ESCURO</span> Hero — sempre dark. Impõe a identidade e cria contraste desde o início.</div>
+      <div class="rh-row light"><span class="rh-tag">CLARO</span> Primeira seção de conteúdo — paper ou paper-2 alternados.</div>
+      <div class="rh-row light"><span class="rh-tag">CLARO</span> Segunda seção — alterne paper / paper-2 para criar ritmo sutil.</div>
+      <div class="rh-row dark2"><span class="rh-tag">ESCURO</span> Momento de destaque — depoimento, evidência ou dado-chave. Máximo 1 por página.</div>
+      <div class="rh-row light"><span class="rh-tag">CLARO</span> Conteúdo complementar.</div>
+      <div class="rh-row dark2"><span class="rh-tag">ESCURO</span> Footer — sempre dark.</div>
+      <div class="rh-row warn"><span class="rh-tag">❌ ERRO</span> Duas seções escuras adjacentes. Nunca faça isso — destrói o contraste.</div>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-top:16px">
+      <ul style="font-size:13.5px;color:var(--ink-soft);margin:0;padding-left:18px;line-height:1.9">
+        <li><strong>Hero</strong> sempre escuro — nunca claro.</li>
+        <li><strong>Máximo 2 seções escuras</strong> no corpo (excluindo hero e footer).</li>
+        <li><strong>Nunca duas dark adjacentes</strong> — sempre separe com uma seção clara.</li>
+        <li><strong>CTA final</strong> no footer escuro ou em faixa escura imediatamente antes.</li>
+        <li><strong>Formulários e texto longo</strong> sempre em fundo claro.</li>
+      </ul>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ HERO ════════════════════════════════════════════ -->
+  <section class="g-section" id="hero">
+    <div class="g-section-title">11</div>
+    <h2>Hero</h2>
+    <p class="g-desc">O hero usa a classe <code>.top</code> — que combina o fundo escuro da nav com o cabeçalho da página em um campo visual único.</p>
+
+    <div class="demo">
+      <div class="demo-pad dark" style="padding:clamp(40px,5vw,64px) clamp(24px,4vw,48px)">
+        <nav style="display:flex;gap:8px;align-items:center;font-size:13px;color:rgba(243,239,231,.45);margin-bottom:28px">
+          <span>Início</span><span>/</span><span>Blog</span><span>/</span><span style="color:rgba(243,239,231,.7)">Categoria</span>
+        </nav>
+        <div class="kicker on-dark" style="margin-bottom:18px">Engage <span class="dot">·</span> Métricas</div>
+        <h1 style="font-size:clamp(28px,4vw,52px);font-weight:700;letter-spacing:-0.035em;line-height:1.06;margin:0 0 22px;color:var(--cream);max-width:14ch">O que é LTV e como <em style="font-style:normal;background-image:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent">calcular</em> corretamente</h1>
+        <div style="display:flex;align-items:center;gap:12px;color:rgba(243,239,231,.6);font-size:14px">
+          <span style="width:38px;height:38px;border-radius:50%;background:var(--grad-num);display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;flex-shrink:0">DV</span>
+          <span><strong style="color:var(--cream);display:block">Deivison Vieira</strong>10 de junho de 2026 · 6 min de leitura</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-top:4px">
+      <div class="g-label">Anatomia do hero</div>
+      <ol style="font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;padding-left:18px;line-height:1.9">
+        <li><strong>Breadcrumb</strong> — orientação, sempre em cream-mute.</li>
+        <li><strong>Kicker</strong> — categoria ou área. <code>.kicker.on-dark</code></li>
+        <li><strong>H1</strong> — fonte 700, clamp fluido, máximo ~14 chars por linha. Uma palavra pode ter clip gradient.</li>
+        <li><strong>Autor + data</strong> — avatar DV (iniciais) + nome + data + minutos de leitura.</li>
+      </ol>
+    </div>
+  </section>
+  <div class="g-divider"></div>
+
+  <!-- ════ REGRAS ═══════════════════════════════════════════ -->
+  <section class="g-section" id="regras">
+    <div class="g-section-title">12</div>
+    <h2>Regras globais</h2>
+    <p class="g-desc">O que fazer e o que nunca fazer na Engage.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#e8f5ee;border:1px solid #b8dfc9;border-radius:12px;padding:20px 22px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#1f8a5b;margin-bottom:14px">✓ Fazer</div>
+        <ul style="font-size:13.5px;color:#1a3a2a;margin:0;padding-left:16px;line-height:2">
+          <li>Usar <code>clamp()</code> para todos os tamanhos fluidos</li>
+          <li>Gradientes mono-roxo</li>
+          <li>Schibsted Grotesk em tudo</li>
+          <li>Logo branco no escuro, escuro no claro</li>
+          <li>Ritmo 70% claro / 30% escuro</li>
+          <li>GTM em toda página nova</li>
+          <li>Favicon e apple-touch-icon</li>
+          <li>Reveal on scroll com IntersectionObserver</li>
+          <li>Nav fixed com troca de estado ao rolar</li>
+        </ul>
+      </div>
+      <div style="background:#fdeee4;border:1px solid #f4c4a0;border-radius:12px;padding:20px 22px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c75a1a;margin-bottom:14px">✗ Nunca</div>
+        <ul style="font-size:13.5px;color:#4a2010;margin:0;padding-left:16px;line-height:2">
+          <li>Gradientes arco-íris ou multicoloridos</li>
+          <li>Duas seções escuras adjacentes</li>
+          <li>Inter, Roboto ou Arial</li>
+          <li>Hero claro (sempre escuro)</li>
+          <li>Logo colorido ou distorcido</li>
+          <li>Cor de acento fora da família roxa</li>
+          <li>Emoji (não faz parte da marca)</li>
+          <li>px fixos em padding de seções</li>
+          <li>Dois CTAs primários lado a lado</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// sidebar active state on scroll
+const sections = document.querySelectorAll('.g-section[id]');
+const links = document.querySelectorAll('.g-nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector('.g-nav a[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

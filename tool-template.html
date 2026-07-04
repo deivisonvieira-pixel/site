@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NLHL7TRT');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+<!-- ══ SUBSTITUA OS 4 CAMPOS ABAIXO ══════════════════════════ -->
+<title>[[NOME DA FERRAMENTA]] · Engage</title>
+<meta name="description" content="[[Descrição em 1 frase — o que o usuário faz aqui e qual o resultado.]]" />
+<meta name="robots" content="noindex" /><!-- mude para index,follow se for pública -->
+<link rel="canonical" href="https://www.useengage.com.br/[[SLUG]]" />
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/engage.css" />
+
+<style>
+  /* ── layout da ferramenta ──────────────────────────────────
+     A tool usa: nav fixa no topo + área de conteúdo + footer.
+     NÃO tem hero escuro de site — começa direto no conteúdo.
+     O padding-top: 80px no .tool-page compensa a nav fixa.
+  ──────────────────────────────────────────────────────────── */
+  .tool-page {
+    min-height: 100vh;
+    padding-top: 80px; /* altura da nav */
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* área central da ferramenta — use este wrapper para centralizar */
+  .tool-wrap {
+    flex: 1;
+    max-width: 860px;       /* ajuste conforme a ferramenta (720–1200px) */
+    width: 100%;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 72px) var(--pad);
+  }
+
+  /* cabeçalho da ferramenta (kicker + título + subtítulo) */
+  .tool-head {
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .tool-head .kicker {
+    margin-bottom: 14px;
+  }
+  .tool-head h1 {
+    font-size: clamp(26px, 3.8vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.032em;
+    line-height: 1.1;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+  .tool-head h1 em {
+    font-style: normal;
+    background-image: var(--grad-num);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .tool-head .lead {
+    font-size: clamp(15px, 1.3vw, 17px);
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin: 0;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  /* ── card de ferramenta (formulário / resultado / passo) ── */
+  .tool-card {
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: clamp(24px, 4vw, 40px);
+    margin-bottom: 20px;
+  }
+  .tool-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 20px;
+  }
+
+  /* ── inputs (inputs, selects, textareas na identidade) ─── */
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+  .field label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .field .hint { font-size: 12px; color: var(--ink-mute); margin-top: -2px; }
+  .field input, .field select, .field textarea {
+    font-family: var(--sans);
+    font-size: 16px;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 10px;
+    padding: 13px 16px;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--purple) 16%, transparent);
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--ink-mute); }
+  .field textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8194' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+
+  /* ── resultado / destaque ─────────────────────────────── */
+  .tool-result {
+    background: var(--grad-deep);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: clamp(24px, 4vw, 40px);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-result::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(155,77,224,0.4), transparent 62%);
+    filter: blur(14px);
+    pointer-events: none;
+  }
+  .tool-result > * { position: relative; z-index: 1; }
+  .tool-result .res-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--cream-mute);
+    margin-bottom: 10px;
+  }
+  .tool-result .res-value {
+    font-size: clamp(48px, 7vw, 80px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    background-image: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 12px;
+  }
+  .tool-result .res-caption {
+    font-size: 14px;
+    color: var(--cream-soft);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  /* ── grid de métricas secundárias ─────────────────────── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .metric-cell {
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .metric-cell .mc-label { font-size: 12px; color: var(--ink-mute); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .metric-cell .mc-value { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .metric-cell .mc-value.accent { background-image: var(--grad-num); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* ── stepper (etapas numeradas) ───────────────────────── */
+  .stepper { display: flex; flex-direction: column; gap: 0; counter-reset: step; }
+  .step { display: grid; grid-template-columns: 40px 1fr; gap: 0 18px; padding-bottom: 32px; position: relative; }
+  .step::before { counter-increment: step; content: counter(step); grid-column: 1; grid-row: 1; width: 40px; height: 40px; border-radius: 50%; background: var(--grad-num); color: #fff; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step::after { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 2px; background: var(--line); }
+  .step:last-child::after { display: none; }
+  .step-content { grid-column: 2; grid-row: 1; }
+  .step-content h3 { font-size: 16px; font-weight: 700; margin: 9px 0 8px; color: var(--ink); }
+  .step-content p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
+
+  /* ── progress bar ─────────────────────────────────────── */
+  .progress-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 20px; }
+  .progress-bar-fill { height: 100%; border-radius: 3px; background: var(--grad-num); transition: width .4s ease; }
+
+  /* ── CTA local (dentro da ferramenta) ────────────────── */
+  .tool-cta {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: clamp(24px, 4vw, 36px);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .tool-cta-text { flex: 1; min-width: 220px; }
+  .tool-cta-text h3 { font-size: 18px; font-weight: 700; margin: 0 0 6px; color: var(--ink); letter-spacing: -0.02em; }
+  .tool-cta-text p { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  @media (max-width: 600px) {
+    .tool-cta { flex-direction: column; align-items: flex-start; }
+    .tool-cta .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLHL7TRT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ════════ NAV (igual ao site) ════════ -->
+<nav class="nav" id="nav" role="navigation" aria-label="Navegação principal">
+  <div class="nav-inner">
+    <a href="index" class="brand" aria-label="Engage — página inicial">
+      <img class="logo logo-light" src="assets/logo-engage-light.png" alt="Engage" />
+      <img class="logo logo-dark" src="assets/logo-engage-dark.png" alt="" />
+    </a>
+    <div class="nav-links">
+      <a href="como-funciona">Como funciona</a>
+      <a href="plataforma">Plataforma</a>
+      <a href="resultados">Resultados</a>
+      <a href="blog">Blog</a>
+    </div>
+    <div class="nav-right">
+      <a href="contato" class="nav-cta">Agendar diagnóstico</a>
+      <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- mobile menu -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mm-head">
+    <a href="index" class="brand">
+      <img class="logo logo-light" src="assets/logo-engage-light.png" alt="Engage" />
+    </a>
+    <button id="menuClose" aria-label="Fechar menu">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><line x1="2" y1="2" x2="20" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="2" x2="2" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <a class="mm-link" href="como-funciona">Como funciona</a>
+  <a class="mm-link" href="plataforma">Plataforma</a>
+  <a class="mm-link" href="resultados">Resultados</a>
+  <a class="mm-link" href="blog">Blog</a>
+  <a href="contato" class="btn btn-cream">Agendar diagnóstico <span class="arr">→</span></a>
+</div>
+
+<!-- ════════ CONTEÚDO DA FERRAMENTA ════════ -->
+<div class="tool-page">
+  <div class="tool-wrap">
+
+    <!-- cabeçalho -->
+    <header class="tool-head">
+      <div class="kicker">Engage <span class="dot">·</span> [[CATEGORIA]]</div>
+      <h1>[[NOME DA FERRAMENTA]] <em>[[palavra de destaque]]</em></h1>
+      <p class="lead">[[Subtítulo: o que o usuário descobre ao usar esta ferramenta. 1–2 frases.]]</p>
+    </header>
+
+    <!-- ── AQUI VAI O CONTEÚDO REAL DA FERRAMENTA ──────────────
+         Abaixo há exemplos dos componentes disponíveis.
+         Delete o que não usar e construa a ferramenta com o que sobrar.
+    ─────────────────────────────────────────────────────────── -->
+
+    <!-- exemplo: barra de progresso (para ferramentas em etapas) -->
+    <div class="progress-bar"><div class="progress-bar-fill" style="width: 33%"></div></div>
+
+    <!-- exemplo: card com campos de entrada -->
+    <div class="tool-card">
+      <div class="tool-card-title">Passo 1 · Dados da base</div>
+
+      <div class="field">
+        <label for="clientes">Total de clientes ativos</label>
+        <span class="hint">Clientes com pelo menos 1 compra nos últimos 12 meses</span>
+        <input type="number" id="clientes" placeholder="ex: 1.200" />
+      </div>
+
+      <div class="field">
+        <label for="ticket">Ticket médio (R$)</label>
+        <input type="number" id="ticket" placeholder="ex: 350" />
+      </div>
+
+      <div class="field">
+        <label for="freq">Frequência de compra por ano</label>
+        <select id="freq">
+          <option value="">Selecione…</option>
+          <option value="1">1× ao ano</option>
+          <option value="2">2–3× ao ano</option>
+          <option value="4">4–6× ao ano</option>
+          <option value="12">Mensal</option>
+        </select>
+      </div>
+
+      <button class="btn btn-purple" style="width:100%; justify-content:center">
+        Calcular potencial <span class="arr">→</span>
+      </button>
+    </div>
+
+    <!-- exemplo: resultado em destaque -->
+    <div class="tool-result">
+      <div class="res-label">Receita potencial identificada</div>
+      <div class="res-value">R$ 2,4M</div>
+      <div class="res-caption">Estimativa de receita incremental em 12 meses operando os clientes que hoje estão inativos ou com frequência abaixo do potencial.</div>
+    </div>
+
+    <!-- exemplo: grid de métricas secundárias -->
+    <div class="metrics-grid">
+      <div class="metric-cell">
+        <div class="mc-label">Clientes em risco</div>
+        <div class="mc-value accent">312</div>
+      </div>
+      <div class="metric-cell">
+        <div class="mc-label">LTV médio</div>
+        <div class="mc-value">R$ 2.100</div>
+      </div>
+      <div class="metric-cell">
+        <div class="mc-label">Churn estimado</div>
+        <div class="mc-value">18%</div>
+      </div>
+    </div>
+
+    <!-- CTA local -->
+    <div class="tool-cta">
+      <div class="tool-cta-text">
+        <h3>Quer transformar esse potencial em receita real?</h3>
+        <p>A Engage instala o sistema de retenção e expansão na sua operação.</p>
+      </div>
+      <a href="contato" class="btn btn-purple">Agendar diagnóstico <span class="arr">→</span></a>
+    </div>
+
+  </div><!-- /tool-wrap -->
+</div><!-- /tool-page -->
+
+<!-- ════════ FOOTER (igual ao site) ════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-cta reveal">
+      <h2>Pronto para parar de depender só de aquisição? <em>Vamos conversar.</em></h2>
+      <div class="fc-actions">
+        <a href="contato" class="btn btn-cream">Agendar diagnóstico <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="footer-top">
+      <div>
+        <a href="index" class="brand">
+          <img class="logo logo-light" src="assets/logo-engage-light.png" alt="Engage" />
+        </a>
+        <p class="blurb">O sistema que transforma sua base de clientes no principal motor de receita.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Produto</h5>
+        <a href="como-funciona">Como funciona</a>
+        <a href="plataforma">Plataforma</a>
+        <a href="resultados">Resultados</a>
+      </div>
+      <div class="footer-col">
+        <h5>Conteúdo</h5>
+        <a href="blog">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h5>Empresa</h5>
+        <a href="contato">Contato</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="yr"></span> Engage. Todos os direitos reservados.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── ano no footer ──
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ── nav scroll-aware ──
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ── menu mobile ──
+  const burger = document.getElementById('burger');
+  const menu   = document.getElementById('mobileMenu');
+  const close  = document.getElementById('menuClose');
+  function openMenu()  { menu.classList.add('open');    burger.setAttribute('aria-expanded','true');  menu.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeMenu() { menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); menu.setAttribute('aria-hidden','true');  document.body.style.overflow=''; }
+  burger.addEventListener('click', openMenu);
+  close.addEventListener('click', closeMenu);
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // ── reveal on scroll ──
+  document.documentElement.classList.add('js');
+  const ro = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>
