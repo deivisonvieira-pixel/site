@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Kahuan Machado × Método Não Pare — Plano Estratégico</title>
+  <style>
+    @font-face {
+      font-family: 'Schibsted Grotesk';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url('../assets/fonts/schibsted-latin-ext.woff2') format('woff2');
+      unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+    }
+    @font-face {
+      font-family: 'Schibsted Grotesk';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url('../assets/fonts/schibsted-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+    }
+    @font-face {
+      font-family: 'Schibsted Grotesk';
+      font-style: italic;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url('../assets/fonts/schibsted-italic-latin-ext.woff2') format('woff2');
+      unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+    }
+    @font-face {
+      font-family: 'Schibsted Grotesk';
+      font-style: italic;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url('../assets/fonts/schibsted-italic-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      font-family: 'Schibsted Grotesk', sans-serif;
+      overflow: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media print { html, body { display: none !important; } }
+    ::selection { background: transparent; }
+
+    /* ── Deck container ── */
+    #deck {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Scale wrapper — 1920×1080 design, fits viewport ── */
+    #stage-wrap {
+      position: relative;
+      width: 1920px; height: 1080px;
+      transform-origin: top left;
+    }
+
+    /* ── Slides ── */
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .slide.active { opacity: 1; pointer-events: auto; }
+
+    /* ── Nav arrows ── */
+    .nav-btn {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,.12); border: none;
+      cursor: pointer; z-index: 9000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .2s, background .2s;
+    }
+    #deck:hover .nav-btn { opacity: 1; }
+    .nav-btn:hover { background: rgba(255,255,255,.28); }
+    #btn-prev { left: 18px; }
+    #btn-next { right: 18px; }
+    .nav-btn svg { width: 22px; height: 22px; fill: #fff; }
+
+    /* ── Progress dots ── */
+    #progress {
+      position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 9000;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.3); transition: background .25s, transform .25s;
+      cursor: pointer;
+    }
+    .dot.active { background: #fff; transform: scale(1.4); }
+
+    /* ── Slide counter ── */
+    #counter {
+      position: fixed; top: 20px; right: 28px;
+      font-size: 13px; font-weight: 600; letter-spacing: .06em;
+      color: rgba(255,255,255,.4); z-index: 9000;
+    }
+
+    /* ── Watermark ── */
+    #watermark {
+      position: fixed; inset: -15%;
+      transform: rotate(-18deg);
+      display: flex; flex-wrap: wrap; gap: 70px 100px;
+      align-content: flex-start; overflow: hidden;
+      opacity: .055; mix-blend-mode: difference;
+      pointer-events: none; z-index: 9998;
+    }
+    .wm-tile {
+      font-size: 15px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: #fff; white-space: nowrap;
+    }
+
+    /* ── Warning toast ── */
+    #warn {
+      position: fixed; top: 24px; right: 24px; z-index: 99999;
+      background: #0A0A0A; color: #fff;
+      font-size: 14px; font-weight: 600; padding: 12px 20px;
+      border-radius: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      opacity: 0; transition: opacity .25s; pointer-events: none;
+    }
+    #warn.show { opacity: 1; }
+
+    /* ─────────────────────────────────────────
+       SLIDE STYLES
+    ───────────────────────────────────────── */
+
+    /* shared */
+    .label {
+      font-size: 24px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .h1 { font-size: 88px; font-weight: 800; letter-spacing: -.035em; line-height: 1.08; margin: 0 0 32px; }
+    .h2 { font-size: 52px; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; margin: 0 0 44px; }
+    .h2-lg { font-size: 64px; font-weight: 800; letter-spacing: -.035em; line-height: 1.14; margin: 0 0 48px; }
+    .body { font-size: 24px; line-height: 1.55; margin: 0 0 20px; }
+    .body-sm { font-size: 22px; line-height: 1.5; margin: 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+    .card { border-radius: 4px; padding: 30px 34px; }
+    .card-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+
+    /* dark bg */
+    .bg-dark { background: #0A0A0A; }
+    .bg-dark .label { color: #999; }
+    .bg-dark .h2, .bg-dark .h2-lg, .bg-dark .h1 { color: #fff; }
+    .bg-dark .body, .bg-dark .body-sm { color: #999; }
+    .bg-dark .card-dark { border: 1px solid #333; }
+
+    /* white bg */
+    .bg-white { background: #fff; }
+    .bg-white .label { color: #0A0A0A; }
+    .bg-white .h2 { color: #0A0A0A; }
+    .bg-white .body, .bg-white .body-sm { color: #222; }
+    .bg-white .card-light { background: #F5F5F5; border: 1px solid #E0E0E0; }
+
+    /* gray bg */
+    .bg-gray { background: #F5F5F5; }
+    .bg-gray .label { color: #0A0A0A; }
+    .bg-gray .h2 { color: #0A0A0A; }
+    .bg-gray .body, .bg-gray .body-sm { color: #222; }
+    .bg-gray .card-white { background: #fff; border: 1px solid #E0E0E0; }
+
+    .purple { color: #9B4DE0; }
+    .pad { padding: 0 140px; }
+    .pad-lg { padding: 0 160px; }
+    .max-w { max-width: 1250px; }
+    .max-w-lg { max-width: 1300px; }
+    .max-w-xl { max-width: 1350px; }
+  </style>
+</head>
+<body>
+
+<div id="deck">
+  <div id="stage-wrap">
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 1 · CAPA
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-dark active" style="padding: 0 140px; position: relative; overflow: hidden;">
+      <div style="position: relative; z-index: 1; max-width: 1250px;">
+        <div class="label" style="color: #999;">Plano estratégico de lançamento</div>
+        <h1 class="h1" style="color: #fff; max-width: 1100px;">
+          Kahuan Machado <span class="purple">×</span> Método Não Pare.
+        </h1>
+        <p class="body" style="color: #999; max-width: 900px;">
+          Lançamento oficial da plataforma de cursos e plano de consistência de marca — construído pela Thraxis com você.
+        </p>
+      </div>
+      <div style="position: relative; z-index: 1; display: flex; align-items: center; gap: 18px; margin-top: 80px;">
+        <img src="assets/thraxis-t.png" alt="Thraxis" draggable="false"
+             style="height: 36px; width: auto; filter: invert(1);" />
+        <span style="font-size: 24px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #999;">Thraxis</span>
+        <span style="color: #444; font-size: 24px;">·</span>
+        <span style="font-size: 24px; color: #999;">Preparado por Deivison Vieira</span>
+        <span style="color: #444; font-size: 24px;">·</span>
+        <span style="font-size: 24px; color: #666;">24 de julho de 2026</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 2 · CONTEXTO
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-white pad" style="padding-top: 100px; padding-bottom: 100px;">
+      <div class="label" style="color: #0A0A0A;">O contexto</div>
+      <h2 class="h2 max-w" style="color: #0A0A0A; max-width: 1250px; line-height: 1.15;">
+        O curso já vende. Agora é acelerar usando o que você já tem.
+      </h2>
+      <p class="body max-w" style="color: #222;">
+        O Método Não Pare já está no ar e vendendo — R$ 697, 5 módulos, checkout via Kiwify. O objetivo agora não é validar o produto: é acelerar a mensagem certa, para o público certo, no tempo certo.
+      </p>
+      <p class="body max-w" style="color: #222; margin-bottom: 44px;">
+        Usando um ativo que a maioria dos lançamentos não tem: uma base própria de <strong style="color: #0A0A0A;">~20 mil contatos</strong> e um posicionamento pessoal já consolidado do Kahuan como referência de alto padrão no litoral norte do RS.
+      </p>
+      <div class="grid-2">
+        <div class="card card-light">
+          <div class="card-title" style="color: #0A0A0A;">Motor 1 — Lançamento tático</div>
+          <p class="body-sm" style="color: #222;">20 dias corridos, 27/07 a 15/08/2026.</p>
+        </div>
+        <div class="card card-light">
+          <div class="card-title" style="color: #0A0A0A;">Motor 2 — Consistência de marca</div>
+          <p class="body-sm" style="color: #222;">90 dias e além — autoridade permanente.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 3 · DIAGNÓSTICO
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-gray pad" style="padding-top: 88px; padding-bottom: 88px;">
+      <div class="label" style="color: #0A0A0A;">Diagnóstico atual</div>
+      <h2 style="font-size: 48px; font-weight: 800; letter-spacing: -.03em; color: #0A0A0A; margin: 0 0 40px; max-width: 1250px; line-height: 1.14;">
+        O que já existe — e o que ainda está subutilizado.
+      </h2>
+      <div class="grid-3" style="grid-template-columns: repeat(3,1fr);">
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Kahuan Machado</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.45;">15–17 anos de mercado, 7 imobiliárias fundadas, +200 colaboradores, centenas de milhões em VGV.</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Instagram</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.45;">Ativo, 3–5 mil views/vídeo, sem cadência de lançamento estruturada.</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">YouTube</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.45;">@kahuanmachado — ativo subutilizado, baixa frequência de publicação.</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Método Não Pare</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.45;">R$ 697 (12x R$ 72,09), 5 módulos, garantia de 7 dias, checkout Kiwify.</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Mailing</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.45;">~20 mil contatos — leads imobiliários (B2C) e corretores (B2B).</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Podcast</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.45;">Em produção, estreia guardada para o lançamento oficial.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 4 · ARQUITETURA DE MARCA
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-dark pad" style="padding-top: 0; padding-bottom: 0;">
+      <div class="label" style="color: #999;">Como as marcas se relacionam</div>
+      <h2 style="font-size: 52px; font-weight: 700; letter-spacing: -.03em; line-height: 1.16; color: #fff; max-width: 1350px; margin: 0 0 48px;">
+        Kahuan Machado é a marca-mãe. Método Não Pare é o produto que vive dela.
+      </h2>
+      <div class="grid-2" style="margin-bottom: 40px;">
+        <div class="card" style="border: 1px solid #333; border-radius: 4px; padding: 32px 36px;">
+          <div class="card-title" style="color: #fff;">Kahuan Machado — marca-mãe</div>
+          <p style="font-size: 22px; color: #999; line-height: 1.5;">Rosto e prova viva do método. Comunica por resultados reais: imóveis vendidos, VGV, bastidores de negociações de alto padrão.</p>
+        </div>
+        <div class="card" style="border: 1px solid #9B4DE0; border-radius: 4px; padding: 32px 36px;">
+          <div class="card-title" style="color: #fff;">Método Não Pare — produto</div>
+          <p style="font-size: 22px; color: #999; line-height: 1.5;">Sistematização replicável da trajetória do Kahuan. Não disputa espaço — vive da marca pessoal e a alimenta de volta.</p>
+        </div>
+      </div>
+      <p style="font-size: 24px; color: #9B4DE0; font-weight: 600;">Todo conteúdo de autoridade sustenta as duas marcas ao mesmo tempo — o que muda é o CTA.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 5 · DOIS FUNIS
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-white pad" style="padding-top: 88px; padding-bottom: 88px;">
+      <div class="label" style="color: #0A0A0A;">Dois públicos, dois funis</div>
+      <h2 style="font-size: 50px; font-weight: 800; letter-spacing: -.03em; color: #0A0A0A; margin: 0 0 44px; max-width: 1250px; line-height: 1.16;">
+        Mesmo conteúdo, duas leituras diferentes.
+      </h2>
+      <div class="grid-2" style="margin-bottom: 36px;">
+        <div class="card" style="background: #F5F5F5; border: 1px solid #E0E0E0; border-radius: 4px; padding: 32px 36px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #999; margin-bottom: 12px;">Funil A · Consumidor (B2C)</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.5; margin: 0 0 10px;">Compradores e vendedores de imóveis de alto padrão no litoral norte do RS e SC.</p>
+          <p style="font-size: 22px; color: #222; line-height: 1.5;">Destino: operação imobiliária do Kahuan — não é o foco comercial deste plano.</p>
+        </div>
+        <div class="card" style="background: #0A0A0A; border-top: 3px solid #9B4DE0; border-radius: 4px; padding: 32px 36px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9B4DE0; margin-bottom: 12px;">Funil B · Corretor (B2B) — foco</div>
+          <p style="font-size: 22px; color: #ccc; line-height: 1.5; margin: 0 0 10px;">Corretores iniciantes e experientes que querem sair da média.</p>
+          <p style="font-size: 22px; color: #ccc; line-height: 1.5;">Destino: Método Não Pare — foco comercial deste lançamento.</p>
+        </div>
+      </div>
+      <p style="font-size: 24px; color: #222; font-style: italic; line-height: 1.5; max-width: 1250px;">
+        Um tour de casa de luxo entrega duas leituras: pro consumidor, "veja esse imóvel incrível"; pro corretor, "veja como um corretor de elite avalia, posiciona e vende".
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 6 · PRIORIZAÇÃO
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-gray pad" style="padding-top: 88px; padding-bottom: 88px;">
+      <div class="label" style="color: #0A0A0A;">Prioridades dos 20 dias</div>
+      <h2 style="font-size: 50px; font-weight: 800; letter-spacing: -.03em; color: #0A0A0A; margin: 0 0 48px; max-width: 1300px; line-height: 1.16;">
+        Vendas primeiro. Lista qualificada em seguida. Autoridade como consequência.
+      </h2>
+      <div class="grid-3">
+        <div class="card card-white">
+          <div style="font-size: 64px; font-weight: 800; color: #0A0A0A; line-height: 1; margin-bottom: 12px;">50%</div>
+          <div class="card-title" style="color: #0A0A0A;">1ª — Vendas diretas</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.5;">A base de corretores já existe — é ativar, não criar demanda do zero.</p>
+        </div>
+        <div class="card card-white">
+          <div style="font-size: 64px; font-weight: 800; color: #0A0A0A; line-height: 1; margin-bottom: 12px;">30%</div>
+          <div class="card-title" style="color: #0A0A0A;">2ª — Lista qualificada</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.5;">Tráfego que não compra na hora entra em nutrição pros próximos ciclos.</p>
+        </div>
+        <div class="card card-white">
+          <div style="font-size: 64px; font-weight: 800; color: #9B4DE0; line-height: 1; margin-bottom: 12px;">20%</div>
+          <div class="card-title" style="color: #0A0A0A;">3ª — Autoridade/alcance</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.5;">Consequência natural do conteúdo — não é o indicador que define sucesso.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 7 · OFERTA
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-white pad" style="padding-top: 100px; padding-bottom: 100px;">
+      <div class="label" style="color: #0A0A0A;">A oferta</div>
+      <h2 class="h2 max-w" style="color: #0A0A0A; line-height: 1.15;">
+        Turma de Lançamento: mesma oferta, nova urgência.
+      </h2>
+      <div class="card" style="background: #F5F5F5; border: 1px solid #E0E0E0; border-radius: 4px; padding: 30px 34px; margin-bottom: 24px;">
+        <div class="card-title" style="color: #0A0A0A;">Ponto de atenção</div>
+        <p class="body" style="color: #222; margin: 0;">A oferta atual ("50 primeiros", R$ 697 ou 12x de R$ 72,09) já está no ar e pode ter perdido força de escassez sem prazo real definido.</p>
+      </div>
+      <div class="card" style="background: #F5F5F5; border: 1px solid #E0E0E0; border-radius: 4px; padding: 30px 34px; margin-bottom: 24px;">
+        <div class="card-title" style="color: #0A0A0A;">Recomendação</div>
+        <p class="body" style="color: #222; margin: 0;">Criar a "Turma de Lançamento" com carrinho aberto real (03 a 09/08) e bônus exclusivos por tempo limitado — mentoria em grupo, acesso antecipado ao Podcast, material de prospecção — mantendo o preço-base como âncora de valor.</p>
+      </div>
+      <div style="border-left: 3px solid #9B4DE0; padding-left: 24px;">
+        <div class="card-title purple">Decisão pendente</div>
+        <p class="body" style="color: #222; margin: 0;">R$ 697 único pra toda a lista, ou condição diferenciada pra base quente (clientes/corretores próximos) versus lista mais fria.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 8 · CALENDÁRIO
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-dark pad" style="padding-top: 88px; padding-bottom: 88px;">
+      <div class="label" style="color: #999;">Calendário tático — 20 dias</div>
+      <h2 style="font-size: 48px; font-weight: 800; letter-spacing: -.03em; color: #fff; margin: 0 0 44px; max-width: 1300px; line-height: 1.15;">
+        De 24/07 a 15/08, quatro fases bem definidas.
+      </h2>
+      <div class="grid-4">
+        <div style="border-top: 3px solid #666; padding-top: 20px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #999; margin-bottom: 10px;">Fase 0 · 24-26/07</div>
+          <h3 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 10px;">Preparação</h3>
+          <p style="font-size: 20px; color: #999; line-height: 1.5;">Alinhar equipe, produzir conteúdo, segmentar as listas.</p>
+        </div>
+        <div style="border-top: 3px solid #666; padding-top: 20px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #999; margin-bottom: 10px;">Fase 1 · 27/07-02/08</div>
+          <h3 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 10px;">Aquecimento</h3>
+          <p style="font-size: 20px; color: #999; line-height: 1.5;">Reaquecer a base, sem vender diretamente ainda.</p>
+        </div>
+        <div style="border-top: 3px solid #9B4DE0; padding-top: 20px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9B4DE0; margin-bottom: 10px;">Fase 2 · 03-09/08</div>
+          <h3 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 10px;">Abertura Oficial</h3>
+          <p style="font-size: 20px; color: #999; line-height: 1.5;">Anúncio oficial, carrinho aberto, prova social pesada.</p>
+        </div>
+        <div style="border-top: 3px solid #666; padding-top: 20px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #999; margin-bottom: 10px;">Fase 3 · 10-15/08</div>
+          <h3 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 10px;">Reta Final</h3>
+          <p style="font-size: 20px; color: #999; line-height: 1.5;">Urgência, últimas objeções, fechamento.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 9 · OUTBOUND
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-white pad" style="padding-top: 88px; padding-bottom: 88px;">
+      <div class="label" style="color: #0A0A0A;">Plano de outbound — ~20 mil contatos</div>
+      <h2 style="font-size: 48px; font-weight: 800; letter-spacing: -.03em; color: #0A0A0A; margin: 0 0 40px; max-width: 1300px; line-height: 1.15;">
+        Duas listas, duas conversas diferentes.
+      </h2>
+      <div class="grid-2" style="margin-bottom: 28px;">
+        <div class="card" style="background: #F5F5F5; border: 1px solid #E0E0E0; border-radius: 4px; padding: 30px 32px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9B4DE0; margin-bottom: 12px;">Segmento Corretores (ICP direto)</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.5; margin: 0 0 8px;">Tom direto, de corretor pra corretor. Canal: WhatsApp primário + e-mail de apoio.</p>
+          <p style="font-size: 22px; color: #222; line-height: 1.5;">Cadência de 5 toques: reconexão → oferta → prova social → urgência → última chamada.</p>
+        </div>
+        <div class="card" style="background: #F5F5F5; border: 1px solid #E0E0E0; border-radius: 4px; padding: 30px 32px;">
+          <div style="font-size: 22px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #999; margin-bottom: 12px;">Segmento Clientes/Leads (B2C)</div>
+          <p style="font-size: 22px; color: #222; line-height: 1.5; margin: 0 0 8px;">Tom de relacionamento, sem pressão de venda do curso.</p>
+          <p style="font-size: 22px; color: #222; line-height: 1.5;">Motor de indicação: "conhece um corretor que precisa sair da média?" — 3 toques.</p>
+        </div>
+      </div>
+      <p style="font-size: 22px; color: #666; line-height: 1.5; max-width: 1300px;">
+        Disparo em lotes, número/domínio aquecido antes do volume alto, e conformidade com LGPD — protegendo a reputação da lista.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 10 · CONTEÚDO 90 DIAS
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-gray pad" style="padding-top: 88px; padding-bottom: 88px;">
+      <div class="label" style="color: #0A0A0A;">Consistência contínua — pós-lançamento, 90 dias</div>
+      <h2 style="font-size: 48px; font-weight: 800; letter-spacing: -.03em; color: #0A0A0A; margin: 0 0 40px; max-width: 1300px; line-height: 1.15;">
+        Depois do lançamento, o conteúdo continua trabalhando.
+      </h2>
+      <div class="grid-3">
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">YouTube</div>
+          <p style="font-size: 21px; color: #222; line-height: 1.5; margin: 0 0 8px;">"Casas de Luxo no Litoral" — tours com leitura dupla, consumidor e corretor.</p>
+          <p style="font-size: 21px; color: #222; line-height: 1.5;">1 vídeo pilar/semana + 3–5 cortes.</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Instagram</div>
+          <p style="font-size: 21px; color: #222; line-height: 1.5; margin: 0 0 8px;">Pilares fixos: bastidores, autoridade, prova social, educacional.</p>
+          <p style="font-size: 21px; color: #222; line-height: 1.5;">Stories diários, 1 Reels/dia, 2–3 carrosséis/semana.</p>
+        </div>
+        <div class="card card-white">
+          <div class="card-title" style="color: #0A0A0A;">Podcast</div>
+          <p style="font-size: 21px; color: #222; line-height: 1.5; margin: 0 0 8px;">Alunos, incorporadores e parceiros da rede como convidados.</p>
+          <p style="font-size: 21px; color: #222; line-height: 1.5;">Quinzenal a semanal — cada episódio vira 3–5 cortes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 11 · PAPÉIS
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-white pad" style="padding-top: 100px; padding-bottom: 100px;">
+      <div class="label" style="color: #0A0A0A;">Quem faz o quê</div>
+      <h2 class="h2 max-w" style="color: #0A0A0A; line-height: 1.15;">Papéis claros, sem sobreposição.</h2>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: center; border-bottom: 1px solid #E0E0E0; padding-bottom: 20px;">
+          <div style="font-size: 26px; font-weight: 700; color: #0A0A0A;">Kahuan</div>
+          <p style="font-size: 24px; color: #222; line-height: 1.5;">Rosto da marca — grava conteúdo (Instagram, YouTube, Podcast) e participa de lives/Q&amp;A.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: center; border-bottom: 1px solid #E0E0E0; padding-bottom: 20px;">
+          <div style="font-size: 26px; font-weight: 700; color: #0A0A0A;">Social media</div>
+          <p style="font-size: 24px; color: #222; line-height: 1.5;">Execução do calendário — publicação, edição, gestão de comunidade e comentários.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: center;">
+          <div style="font-size: 26px; font-weight: 700; color: #9B4DE0;">Deivison</div>
+          <p style="font-size: 24px; color: #222; line-height: 1.5;">Estrategista e tático do projeto — arquitetura do plano, priorização, indicadores, ajuste de rota, e responsável direto pela operação do outbound.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 12 · PRÓXIMOS PASSOS
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-dark pad-lg" style="padding-top: 0; padding-bottom: 0;">
+      <div class="label" style="color: #999;">Próximos passos imediatos</div>
+      <h2 style="font-size: 64px; font-weight: 800; letter-spacing: -.03em; color: #fff; margin: 0 0 48px; max-width: 1200px; line-height: 1.14;">
+        Validar com o Kahuan. Começar já.
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="display: flex; gap: 20px; align-items: baseline;">
+          <div style="font-size: 32px; font-weight: 800; color: #9B4DE0; flex-shrink: 0;">01</div>
+          <p style="font-size: 26px; color: #fff; line-height: 1.5;">Validar este plano com o Kahuan.</p>
+        </div>
+        <div style="display: flex; gap: 20px; align-items: baseline;">
+          <div style="font-size: 32px; font-weight: 800; color: #9B4DE0; flex-shrink: 0;">02</div>
+          <p style="font-size: 26px; color: #fff; line-height: 1.5;">Iniciar a Fase 0 já neste fim de semana (24 a 26/07), pra manter os 20 dias corridos a partir de 27/07.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 13 · BORA?
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-dark" style="position: relative; overflow: hidden; align-items: center; justify-content: center;">
+      <img src="assets/handshake.jpg" alt="" draggable="false"
+           style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05);" />
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,.72) 60%,rgba(10,10,10,.92) 100%);"></div>
+      <h2 style="position: relative; z-index: 1; font-size: 84px; font-weight: 800; letter-spacing: -.035em; color: #fff; text-align: center; max-width: 1300px; line-height: 1.12; margin: 0;">
+        Bora educar o mercado imobiliário?
+      </h2>
+      <div style="position: absolute; left: 56px; bottom: 40px; z-index: 1; font-size: 24px; color: rgba(255,255,255,.6);">
+        Kahuan Machado &amp; Deivison Vieira — Thraxis
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 14 · VALOR
+    ══════════════════════════════════════════ -->
+    <div class="slide bg-dark pad-lg" style="padding-top: 0; padding-bottom: 0; position: relative; overflow: hidden;">
+      <div style="position: relative; z-index: 1;">
+        <div class="label" style="color: #999; margin-bottom: 36px;">A proposta</div>
+        <div style="display: flex; gap: 100px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 56px;">
+          <div>
+            <div style="font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #666; margin-bottom: 10px;">Valor mensal</div>
+            <div style="font-size: 96px; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: #fff; line-height: 1;">R$ 3.000</div>
+          </div>
+          <div>
+            <div style="font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #666; margin-bottom: 10px;">% sobre sucesso</div>
+            <div style="font-size: 96px; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: #9B4DE0; line-height: 1;">5%</div>
+          </div>
+        </div>
+        <p style="font-size: 24px; color: #999; max-width: 720px; line-height: 1.55;">5% de cada venda fechada, descontadas as taxas financeiras.</p>
+      </div>
+    </div>
+
+  </div><!-- /stage-wrap -->
+</div><!-- /deck -->
+
+<!-- ── Watermark ── -->
+<div id="watermark"></div>
+
+<!-- ── Nav ── -->
+<button class="nav-btn" id="btn-prev" aria-label="Anterior">
+  <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+</button>
+<button class="nav-btn" id="btn-next" aria-label="Próximo">
+  <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+</button>
+
+<!-- ── Progress ── -->
+<div id="progress"></div>
+
+<!-- ── Counter ── -->
+<div id="counter"></div>
+
+<!-- ── Warning ── -->
+<div id="warn">Conteúdo protegido — apenas leitura.</div>
+
+<script>
+(function () {
+  /* ── Watermark tiles ── */
+  const wm = document.getElementById('watermark');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('span');
+    s.className = 'wm-tile';
+    s.textContent = 'THRAXIS — CONFIDENCIAL';
+    wm.appendChild(s);
+  }
+
+  /* ── Scale stage to viewport ── */
+  const DESIGN_W = 1920, DESIGN_H = 1080;
+  const wrap = document.getElementById('stage-wrap');
+
+  function scaleStage() {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
+    wrap.style.transform = `scale(${scale})`;
+    wrap.style.left = Math.round((vw - DESIGN_W * scale) / 2) + 'px';
+    wrap.style.top  = Math.round((vh - DESIGN_H * scale) / 2) + 'px';
+  }
+  scaleStage();
+  window.addEventListener('resize', scaleStage);
+
+  /* ── Slide navigation ── */
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const progress = document.getElementById('progress');
+  const counter  = document.getElementById('counter');
+
+  function buildDots() {
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('button');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Slide ' + (i + 1));
+      d.addEventListener('click', () => goTo(i));
+      progress.appendChild(d);
+    }
+  }
+  buildDots();
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    slides[current].classList.remove('active');
+    document.querySelectorAll('.dot')[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot')[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+  }
+  counter.textContent = '1 / ' + total;
+
+  document.getElementById('btn-prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('btn-next').addEventListener('click', () => goTo(current + 1));
+
+  /* ── Keyboard ── */
+  const warn = document.getElementById('warn');
+  let warnTimer;
+
+  function flashWarning() {
+    warn.classList.add('show');
+    clearTimeout(warnTimer);
+    warnTimer = setTimeout(() => warn.classList.remove('show'), 1800);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const k = (e.key || '').toLowerCase();
+
+    /* navigation */
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); return; }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); return; }
+    if (e.key === 'Home')       { e.preventDefault(); goTo(0); return; }
+    if (e.key === 'End')        { e.preventDefault(); goTo(total - 1); return; }
+
+    /* blocked shortcuts */
+    const ctrl = e.ctrlKey || e.metaKey;
+    const blocked = (ctrl && ['c','x','s','p','u','a'].includes(k))
+                 || e.key === 'F12'
+                 || (ctrl && e.shiftKey && ['i','j','c'].includes(k))
+                 || e.key === 'PrintScreen';
+    if (blocked) { e.preventDefault(); flashWarning(); }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'PrintScreen') flashWarning();
+  });
+
+  /* ── Content protection ── */
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+  document.addEventListener('selectstart', (e) => e.preventDefault());
+  document.addEventListener('copy',        (e) => { e.preventDefault(); flashWarning(); });
+  document.addEventListener('cut',         (e) => { e.preventDefault(); flashWarning(); });
+  document.addEventListener('dragstart',   (e) => e.preventDefault());
+
+  /* ── Touch / swipe ── */
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+  });
+})();
+</script>
+</body>
+</html>
