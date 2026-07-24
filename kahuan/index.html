@@ -58,12 +58,12 @@
     /* ── Deck container ── */
     #deck {
       position: fixed; inset: 0;
-      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
     }
 
     /* ── Scale wrapper — 1920×1080 design, fits viewport ── */
     #stage-wrap {
-      position: relative;
+      position: absolute;
       width: 1920px; height: 1080px;
       transform-origin: top left;
     }
@@ -72,6 +72,7 @@
     .slide {
       position: absolute; inset: 0;
       display: flex; flex-direction: column; justify-content: center;
+      overflow: hidden;
       opacity: 0; pointer-events: none;
       transition: opacity .35s ease;
     }
@@ -80,14 +81,14 @@
     /* ── Nav arrows ── */
     .nav-btn {
       position: fixed; top: 50%; transform: translateY(-50%);
-      width: 56px; height: 56px; border-radius: 50%;
-      background: rgba(255,255,255,.12); border: none;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.25);
       cursor: pointer; z-index: 9000;
       display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity .2s, background .2s;
+      opacity: 1; transition: background .2s, transform .15s;
+      box-shadow: 0 2px 12px rgba(0,0,0,.4);
     }
-    #deck:hover .nav-btn { opacity: 1; }
-    .nav-btn:hover { background: rgba(255,255,255,.28); }
+    .nav-btn:hover { background: rgba(255,255,255,.35); transform: translateY(-50%) scale(1.08); }
     #btn-prev { left: 18px; }
     #btn-next { right: 18px; }
     .nav-btn svg { width: 22px; height: 22px; fill: #fff; }
